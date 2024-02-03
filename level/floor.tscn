@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://bifrn6tihunkl"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8u8w"]
+albedo_color = Color(1, 0.254902, 1, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xrsyi"]
+material = SubResource("StandardMaterial3D_t8u8w")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_nfeu0"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[node name="Floor" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0)
+mesh = SubResource("PlaneMesh_xrsyi")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_nfeu0")
