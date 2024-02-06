@@ -8,10 +8,12 @@ const walking_speed: float = 5
 const sprint_speed: float = 8
 const crouch_speed: float = 3
 const lerp_speed: float = 10
+const air_lerp_speed: float = 3.5
 var direction: = Vector3.ZERO
 var crouching_depth: float = -0.5
 var mouse_sen: float = .08
 var free_look_tilt_amount: float = 3
+var last_velocity: Vector3 = Vector3.ZERO
 
 # Player States
 var walking: bool = false
@@ -48,6 +50,7 @@ var head_bobbing_index = 0.0
 @onready var camera = $Neck/Head/Eyes/Camera3D
 @onready var head_lamp = $Neck/Head/SpotLight3D
 @onready var ray_cast_3d = $RayCast3D
+@onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -139,13 +142,13 @@ func _physics_process(delta):
 	if Input.is_action_pressed("free_look") || sliding:
 		free_looking = true
 		if sliding:
-			camera.rotation.z = lerp(camera.rotation.z, deg_to_rad(-7.0), delta * lerp_speed)
+			eyes.rotation.z = lerp(eyes.rotation.z, deg_to_rad(-7.0), delta * lerp_speed)
 		else:
-			camera.rotation.z = -deg_to_rad(neck.rotation.y * free_look_tilt_amount)
+			eyes.rotation.z = -deg_to_rad(eyes.rotation.y * free_look_tilt_amount)
 	else:
 		free_looking = false
 		neck.rotation.y = lerp(neck.rotation.y,0.0,delta * lerp_speed)
-		camera.rotation.z = lerp(camera.rotation.z,0.0,delta * lerp_speed)
+		eyes.rotation.z = lerp(eyes.rotation.z,0.0,delta * lerp_speed)
 	
 	#Head Bobbing
 	if sprinting:
@@ -167,18 +170,34 @@ func _physics_process(delta):
 	else:
 		eyes.position.y = lerp(eyes.position.y,0.0, delta * lerp_speed)
 		eyes.position.x = lerp(eyes.position.x,0.0, delta * lerp_speed)
+		
 	#Gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
-	
+	#Jumping 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
+		#eyes.rotation.z = -deg_to_rad(eyes.rotation.y * free_look_tilt_amount)
 		velocity.y = jump_force
 		sliding = false
+		animation_player.play("Jump")
+	
+	#Handle landing
+	if is_on_floor():
+		if last_velocity.y < -6.0:
+			print(last_velocity)
+		elif last_velocity.y < -4.0:
+			animation_player.play("landing")
+			print("derp")
+		
 		
 	#direction we are going to move
-	direction = lerp(direction,(transform.basis * Vector3(input_dir.x,0,input_dir.y)).normalized(),delta * lerp_speed)
-	
+	if is_on_floor():
+		direction = lerp(direction,(transform.basis * Vector3(input_dir.x,0,input_dir.y)).normalized(),delta * lerp_speed)
+	else:
+		if input_dir != Vector2.ZERO:
+			direction = lerp(direction,(transform.basis * Vector3(input_dir.x,0,input_dir.y)).normalized(),delta * air_lerp_speed)
+		
 	if sliding:
 		direction = (transform.basis * Vector3(slide_vector.x,0, slide_vector.y)).normalized()
 		speed = (slide_timer + 0.1) * slide_speed
@@ -191,5 +210,8 @@ func _physics_process(delta):
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
-
+		
+	last_velocity = velocity
 	move_and_slide()
+	
+	
