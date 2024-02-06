@@ -29,7 +29,6 @@ transform = Transform3D(1, 0, 0, 0, 0.24579, 0, 0, 0, 1, -0.000675991, 0.23463, 
 mesh = SubResource("CylinderMesh_8co8c")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
@@ -93,18 +92,17 @@ transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, -7.10543e-14, 0, 1, 0, 0.02
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D2/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
-transform = Transform3D(-1.31134e-06, 0, 6.03986, 0, 5, 0, -30, 0, -2.64011e-07, 16.767, 4.22722, -0.400615)
+transform = Transform3D(-1.31134e-06, 0, 6.03986, 0, 5, 0, -30, 0, -2.64011e-07, 16.767, 4.16972, -0.400615)
 mesh = SubResource("PrismMesh_2w3h0")
 skeleton = NodePath("../TestWall4")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D3"]
-transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, -7.10543e-14, 0, 1, 0, 0.0229378, 0)
+transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, -7.10543e-14, 0, 1, 0, 0, 0)
 collision_layer = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D3/StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, 2.84217e-14, 0, 1, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_525og")
