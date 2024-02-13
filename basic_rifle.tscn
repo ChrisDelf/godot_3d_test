@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cf20auokit2fp"]
+
+[node name="BasicRifle" type="Node3D"]

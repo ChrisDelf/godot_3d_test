@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Weapon_Resource" load_steps=2 format=3 uid="uid://d6os4gmj76ix"]
+
+[ext_resource type="Script" path="res://weapon_resource.gd" id="1_kop63"]
+
+[resource]
+script = ExtResource("1_kop63")
+weapon_name = ""
+activate_anim = ""
+shoot_anim = ""
+deactivate_anim = ""
+out_of_ammo = ""
+current_ammo = 0
+reserve_ammo = 0
+magazine = 0
+max_ammo = 0
+auto_fire = false

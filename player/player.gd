@@ -55,6 +55,7 @@ var head_bobbing_index = 0.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	animation_player.play("landing")
 
 #capturing mouse actions 
 func _unhandled_input(event):
@@ -189,6 +190,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		if last_velocity.y < -6.0:
 			print("hard fall")
+			animation_player.play("landing")
 		elif last_velocity.y < -4.0:
 			animation_player.play("landing")
 			
