@@ -27,6 +27,7 @@ var slide_timer: float = 0.0
 var slide_timer_max: float = 1.0
 var slide_vector: Vector2 = Vector2.ZERO
 var slide_speed: float = 10.0
+var can_slide: bool = true
 
 #Head Bobbing vars
 const head_bobbing_sprinting_speed: float = 22.0
@@ -54,6 +55,7 @@ var head_bobbing_index = 0.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	animation_player.play("landing")
 
 #capturing mouse actions 
 func _unhandled_input(event):
@@ -101,11 +103,13 @@ func _physics_process(delta):
 		crouching_collision_shape.disabled = false
 		
 		#Slide begin
-		if sprinting && input_dir != Vector2.ZERO && sliding != true:
+		if sprinting && input_dir != Vector2.ZERO && sliding != true && can_slide == true:
 			sliding = true
 			slide_timer = slide_timer_max
 			slide_vector = input_dir
 			free_looking = true
+			can_slide = false
+			$Timers/SlideCooldown.start()
 
 		walking = false
 		sprinting = false
@@ -185,10 +189,11 @@ func _physics_process(delta):
 	#Handle landing
 	if is_on_floor():
 		if last_velocity.y < -6.0:
-			print(last_velocity)
+			print("hard fall")
+			animation_player.play("landing")
 		elif last_velocity.y < -4.0:
 			animation_player.play("landing")
-			print("derp")
+			
 		
 		
 	#direction we are going to move
@@ -215,3 +220,6 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	
+
+func _on_slide_cooldown_timeout():
+	can_slide = true

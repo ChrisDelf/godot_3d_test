@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=14 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
+[ext_resource type="PackedScene" uid="uid://tpy3riu1htft" path="res://weapons/rifle.tscn" id="2_5e6iy"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -98,11 +99,122 @@ tracks/1/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, -0.05, 0), Vector3(0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_jotgw"]
+resource_name = "rifle"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/rifle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.599646, -0.825094, -1.51084), Vector3(0.151351, -0.605595, -1.10883), Vector3(0.392272, -0.36928, -1.24942)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/rifle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/rifle:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.3, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.980072, 0), Vector3(0, -1.5708, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dm2ny"]
+resource_name = "rifle_deactivate"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/rifle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.392272, -0.36928, -1.24942), Vector3(0.392272, -0.945056, -1.24942)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/rifle:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.7),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/rifle:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0, -1.00032, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w3p26"]
+resource_name = "rifle_hip_fire"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/rifle:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.392272, -0.36928, -1.24942), Vector3(0.392272, -0.36928, -1.23918), Vector3(0.392272, -0.36928, -1.22399), Vector3(0.392272, -0.36928, -1.20894), Vector3(0.392272, -0.36928, -1.18694), Vector3(0.392272, -0.36928, -1.10851)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/rifle:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(-1.1694e-09, -1.5708, -0.0267559), Vector3(-1.22758e-09, -1.60642, -0.0267559), Vector3(-1.1256e-09, -1.59219, -0.0267559)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j6bnf"]
 _data = {
 "Jump": SubResource("Animation_0erex"),
 "RESET": SubResource("Animation_ee7ky"),
-"landing": SubResource("Animation_s5ty4")
+"landing": SubResource("Animation_s5ty4"),
+"rifle": SubResource("Animation_jotgw"),
+"rifle_deactivate": SubResource("Animation_dm2ny"),
+"rifle_hip_fire": SubResource("Animation_w3p26")
 }
 
 [node name="Player" type="CharacterBody3D"]
@@ -137,6 +249,11 @@ light_volumetric_fog_energy = 1.808
 
 [node name="Eyes" type="Node3D" parent="Neck/Head"]
 
+[node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes"]
+
+[node name="rifle" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
+transform = Transform3D(-0.0213885, -0.000572403, -0.999771, -0.0267527, 0.999642, 1.17543e-09, 0.999413, 0.0267466, -0.0213961, 0.392272, -0.36928, -1.10851)
+
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
 
@@ -148,3 +265,11 @@ libraries = {
 [node name="RayCast3D" type="RayCast3D" parent="."]
 target_position = Vector3(0, 2, 0)
 collision_mask = 2
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="SlideCooldown" type="Timer" parent="Timers"]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="Timers/SlideCooldown" to="." method="_on_slide_cooldown_timeout"]

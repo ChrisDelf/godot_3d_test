@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cs57sph06navl"]
+
+[ext_resource type="PackedScene" uid="uid://dscw8j0ghcih1" path="res://rifle_mag.glb" id="1_uwfnj"]
+
+[node name="rifle_mag" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.489745, 0.288965, 0)
+
+[node name="rifle_mag" parent="." instance=ExtResource("1_uwfnj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0414813, 0, 0.324976)
