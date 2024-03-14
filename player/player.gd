@@ -55,7 +55,7 @@ var head_bobbing_index = 0.0
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	animation_player.play("landing")
+	#animation_player.play("landing")
 
 #capturing mouse actions 
 func _unhandled_input(event):
