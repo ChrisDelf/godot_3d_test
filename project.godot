@@ -15,6 +15,10 @@ run/main_scene="res://level/world.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Globals="*res://globals/globals.gd"
+
 [input]
 
 left={

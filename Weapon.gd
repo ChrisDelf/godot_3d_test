@@ -18,6 +18,10 @@ class_name  WeaponParent
 
 @export var auto_fire: bool
 
+func reload():
+	pass
+	
+
 
 
 
