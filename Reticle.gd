@@ -6,7 +6,7 @@ extends CenterContainer
 func _ready():
 	queue_redraw()
 	
-func _process(delta):
+func _process(_delta):
 	pass
 	
 func _draw():

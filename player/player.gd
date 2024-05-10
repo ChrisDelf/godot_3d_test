@@ -48,6 +48,7 @@ var current_weapon: Node = null
 
 
 
+
 @onready var standing_collision_shape = $StandingCollisionShape
 @onready var crouching_collision_shape = $CrouchingCollisionShape
 @onready var eyes = $Neck/Head/Eyes
@@ -57,6 +58,7 @@ var current_weapon: Node = null
 @onready var head_lamp = $Neck/Head/SpotLight3D
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
+@onready var crosshair = $Neck/Head/Eyes/Camera3D/UserInterface
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -243,13 +245,12 @@ func _physics_process(delta):
 	last_velocity = velocity
 	move_and_slide()
 	
+
+	
 	
 
 func _on_slide_cooldown_timeout():
 	can_slide = true
-
-
-
 
 
 func _on_weapon_holder_weapon_swap(param1):

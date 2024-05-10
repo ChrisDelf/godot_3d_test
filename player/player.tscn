@@ -704,7 +704,6 @@ deactivate_anim = "rifle_deactivate"
 run_animation = "rifle_run"
 walk_animation = "rifle_walk"
 current_ammo = 25
-resrve_ammo = 25
 magazine = 25
 max_ammo = 100
 
