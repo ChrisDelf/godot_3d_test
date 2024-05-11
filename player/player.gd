@@ -42,6 +42,12 @@ const head_bobbing_crouching_intensity: float = 0.05
 var head_bobbing_vector = Vector2.ZERO
 var head_bobbing_index = 0.0
 
+#weapon related variables
+var current_weapon: Node = null
+
+
+
+
 
 @onready var standing_collision_shape = $StandingCollisionShape
 @onready var crouching_collision_shape = $CrouchingCollisionShape
@@ -52,10 +58,12 @@ var head_bobbing_index = 0.0
 @onready var head_lamp = $Neck/Head/SpotLight3D
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
+@onready var crosshair = $Neck/Head/Eyes/Camera3D/UserInterface
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	#animation_player.play("landing")
+	animation_player.play("landing")
+
 
 #capturing mouse actions 
 func _unhandled_input(event):
@@ -86,9 +94,14 @@ func _unhandled_input(event):
 	
 func _process(_delta):
 	if Input.is_action_pressed("primary action"):
-		print("shoot")
+		if current_weapon.weapon_name == "rifle":
+			animation_player.play("rifle_shoot")
+		if current_weapon.weapon_name == "revolver":
+			animation_player.play("revolver_shoot")
+	
 
 func _physics_process(delta):
+	
 	#Movement inpt
 	var input_dir := Input.get_vector("left","right","foward","backward")
 	
@@ -135,6 +148,10 @@ func _physics_process(delta):
 		walking = false
 		sprinting = true
 		crouching = false
+	elif Input.is_action_pressed("crouch"):
+		crouching = true
+		sprinting = false
+		walking = false
 	else: 
 		speed = lerp(speed, walking_speed, delta * lerp_speed)
 		
@@ -158,13 +175,16 @@ func _physics_process(delta):
 	if sprinting:
 		head_bobbing_current_intensity = head_bobbing_sprinting_intensity
 		head_bobbing_index += head_bobbing_sprinting_speed * delta
-	elif walking:
+		Globals.player_state = "sprinting"
+	elif walking and !crouching:
 		head_bobbing_current_intensity = head_bobbing_walking_intensity
 		head_bobbing_index += head_bobbing_walking_speed * delta
+		Globals.player_state = "walking"
 	elif crouching:
 		head_bobbing_current_intensity = head_bobbing_crouching_intensity
 		head_bobbing_index += head_bobbing_crouching_speed * delta
-	
+		Globals.player_state = "crouching"
+		
 	if is_on_floor() && !sliding && input_dir != Vector2.ZERO:
 		head_bobbing_vector.y = sin(head_bobbing_index)
 		head_bobbing_vector.x = sin(head_bobbing_index/2) + 0.5
@@ -178,6 +198,7 @@ func _physics_process(delta):
 	#Gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
+		Globals.player_state = "falling"
 		
 	#Jumping 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
@@ -206,6 +227,7 @@ func _physics_process(delta):
 	if sliding:
 		direction = (transform.basis * Vector3(slide_vector.x,0, slide_vector.y)).normalized()
 		speed = (slide_timer + 0.1) * slide_speed
+		Globals.player_state = "sliding"
 	
 		
 	if direction:
@@ -216,10 +238,20 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 		
+	
+	if velocity.length() < 0.1:
+		Globals.player_state="idle"
+		
 	last_velocity = velocity
 	move_and_slide()
+	
+
 	
 	
 
 func _on_slide_cooldown_timeout():
 	can_slide = true
+
+
+func _on_weapon_holder_weapon_swap(param1):
+	current_weapon = param1

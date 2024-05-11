@@ -12,11 +12,14 @@ class_name  WeaponParent
 
 
 @export var current_ammo: int
-@export var resrve_ammo: int
+@export var reserve_ammo: int
 @export var magazine: int
 @export var max_ammo: int
 
 @export var auto_fire: bool
+
+
+	
 
 
 
