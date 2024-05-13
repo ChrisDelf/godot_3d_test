@@ -23,7 +23,7 @@ class_name  WeaponParent
 
 func _ready():
 	can_fire = true
-	
+
 
 
 
@@ -35,7 +35,7 @@ func _process(_delta):
 	
 		if Input.is_action_pressed("primary action"):
 			if can_fire:
-				print(current_ammo)
+				
 				if current_ammo > 0:
 					fire()
 				else:
@@ -68,10 +68,10 @@ func fire():
 		ammo_list.append(current_ammo)
 		ammo_list.append(reserve_ammo)
 		Globals.ammo_list = ammo_list
-		print("ammo in gun: ", current_ammo)
-		
 
-	
+
+
+
 
 
 

@@ -224,6 +224,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(-1.2039e-08, 1.5708, 0.184115), Vector3(-5.90929e-09, 1.5708, 0.042045)]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/revolver:can_fire")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_xkqlg"]
 resource_name = "revolver_walk"
@@ -701,9 +713,10 @@ _weapon_resources = [NodePath("rifle"), NodePath("revolver")]
 _start_weapons = Array[String](["rifle", "revolver"])
 
 [node name="revolver" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("3_hkh63")]
-transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90954e-09, -0.999115, 0.0420326, -3.61999e-06, 0.524786, 0.00967813, -0.429977)
+transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90928e-09, -0.999115, 0.0420325, -3.61999e-06, 0.375223, -0.104754, -0.429977)
 visible = false
 activate_anim = "revolver_activate"
+hip_fire = "revolver_shoot"
 deactivate_anim = "revolver_deactivate"
 current_ammo = 6
 reserve_ammo = 12

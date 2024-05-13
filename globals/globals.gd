@@ -24,6 +24,11 @@ var ammo_list: = []:
 		ammo_list = value
 		stat_change.emit()
 		emit_signal("stat_change")
+var weapon_dict: = {}:
+	set(value):
+		weapon_dict = value
+		stat_change.emit()
+		emit_signal("stat_change")
 
 		
 		
