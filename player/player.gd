@@ -46,9 +46,6 @@ var head_bobbing_index = 0.0
 var current_weapon: Node = null
 
 
-
-
-
 @onready var standing_collision_shape = $StandingCollisionShape
 @onready var crouching_collision_shape = $CrouchingCollisionShape
 @onready var eyes = $Neck/Head/Eyes
@@ -58,7 +55,7 @@ var current_weapon: Node = null
 @onready var head_lamp = $Neck/Head/SpotLight3D
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
-@onready var crosshair = $Neck/Head/Eyes/Camera3D/UserInterface
+@onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/UserInterface
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -91,14 +88,6 @@ func _unhandled_input(event):
 			
 			
 			
-	
-func _process(_delta):
-	if Input.is_action_pressed("primary action"):
-		if current_weapon.weapon_name == "rifle":
-			animation_player.play("rifle_shoot")
-		if current_weapon.weapon_name == "revolver":
-			animation_player.play("revolver_shoot")
-	
 
 func _physics_process(delta):
 	

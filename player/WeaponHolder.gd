@@ -8,7 +8,6 @@ var weapon_indicator = 0
 var weapon_list = {}
 var next_weapon: String
 
-signal weapon_swap(param1: String)
 
 @export var _weapon_resources: Array[Node3D]
 
@@ -35,10 +34,12 @@ func initialize(start_weapons: Array):
 		weapon_stack.push_back(i) # string reference to our start weapons
 	
 	current_weapon = weapon_list[weapon_stack[0]]
+	Globals.weapon_stack = weapon_stack
 	enter()
 
 func enter():
 	animation_player.queue(current_weapon.activate_anim)
+	Globals.current_weapon = current_weapon.weapon_name
 	
 
 func exit(_next_weapon: String):
@@ -46,16 +47,17 @@ func exit(_next_weapon: String):
 	if _next_weapon != current_weapon.weapon_name:
 		if animation_player.get_current_animation() != current_weapon.deactivate_anim:
 			animation_player.play(current_weapon.deactivate_anim)
-			
 			next_weapon = _next_weapon
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
-	weapon_swap.emit(current_weapon)
-	Globals.current_weapon = current_weapon.weapon_name
+	
 	next_weapon = ""
 	enter()
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == current_weapon.deactivate_anim:
 		change_weapon(next_weapon)
+		
+		
+

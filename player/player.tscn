@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=31 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://tpy3riu1htft" path="res://weapons/rifle.tscn" id="2_5e6iy"]
@@ -6,7 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://brsibbboo0eli" path="res://weapons/revolver.tscn" id="3_hkh63"]
 [ext_resource type="PackedScene" uid="uid://3ullycelqk7b" path="res://Interface/user_interface.tscn" id="5_hpnna"]
 [ext_resource type="Script" path="res://player/IdlePlayerState.gd" id="5_j8ths"]
-[ext_resource type="Script" path="res://player/TestControl.gd" id="6_fywqy"]
+[ext_resource type="Script" path="res://player/HUD.gd" id="5_p0uaf"]
+[ext_resource type="PackedScene" uid="uid://l7t7obrt1w36" path="res://Interface/hud.tscn" id="7_vwyhi"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -496,7 +497,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_7d14k"]
 resource_name = "rifle_shoot"
-length = 0.3
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -532,6 +533,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Vector3(0, -1.5708, 0), Vector3(-6.92711e-07, -1.5708, -0.192545), Vector3(0, -1.5708, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/rifle:can_fire")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_j0ysx"]
@@ -688,29 +701,38 @@ _weapon_resources = [NodePath("rifle"), NodePath("revolver")]
 _start_weapons = Array[String](["rifle", "revolver"])
 
 [node name="revolver" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("3_hkh63")]
-transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90962e-09, -0.999115, 0.0420326, -3.61999e-06, 0.524786, 0.00967813, -0.429977)
+transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90954e-09, -0.999115, 0.0420326, -3.61999e-06, 0.524786, 0.00967813, -0.429977)
 visible = false
 activate_anim = "revolver_activate"
 deactivate_anim = "revolver_deactivate"
+current_ammo = 6
+reserve_ammo = 12
+magazine = 6
 
 [node name="rifle" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)
-visible = false
 weapon_name = "rifle"
 activate_anim = "rifle_activate"
-hip_fire = "rifle_hip_fire"
+hip_fire = "rifle_shoot"
 reload_anim = "rifle_reload"
 deactivate_anim = "rifle_deactivate"
 run_animation = "rifle_run"
 walk_animation = "rifle_walk"
 current_ammo = 25
+reserve_ammo = 50
 magazine = 25
 max_ammo = 100
+can_fire = true
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
 
-[node name="UserInterface" parent="Neck/Head/Eyes/Camera3D" instance=ExtResource("5_hpnna")]
+[node name="CanvasLayer" type="CanvasLayer" parent="Neck/Head/Eyes/Camera3D"]
+script = ExtResource("5_p0uaf")
+
+[node name="Hud" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("7_vwyhi")]
+
+[node name="UserInterface" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("5_hpnna")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Neck/Head/Eyes"]
 libraries = {
@@ -734,42 +756,5 @@ script = ExtResource("5_j8ths")
 
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
-[node name="TestControl" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 527.0
-offset_bottom = 364.0
-script = ExtResource("6_fywqy")
-
-[node name="StanceLabel" type="Label" parent="TestControl"]
-layout_mode = 0
-offset_left = 2.0
-offset_top = 5.0
-offset_right = 523.0
-offset_bottom = 127.0
-text = "Stance"
-
-[node name="StanceText" type="Label" parent="TestControl"]
-layout_mode = 0
-offset_left = 76.0
-offset_top = 4.0
-offset_right = 207.0
-offset_bottom = 49.0
-
-[node name="WeaponText" type="Label" parent="TestControl"]
-layout_mode = 0
-offset_left = 148.0
-offset_top = 33.0
-offset_right = 263.0
-offset_bottom = 56.0
-
-[node name="WeaponLabel" type="Label" parent="TestControl"]
-layout_mode = 0
-offset_top = 31.0
-offset_right = 128.0
-offset_bottom = 54.0
-text = "Current Weapon"
-
-[connection signal="weapon_swap" from="Neck/Head/Eyes/WeaponHolder" to="." method="_on_weapon_holder_weapon_swap"]
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="Neck/Head/Eyes/WeaponHolder" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timers/SlideCooldown" to="." method="_on_slide_cooldown_timeout"]
