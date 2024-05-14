@@ -57,9 +57,11 @@ var current_weapon: Node = null
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/UserInterface
 
+
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	animation_player.play("landing")
+	
 
 
 #capturing mouse actions 
@@ -96,6 +98,7 @@ func _physics_process(delta):
 	
 	#crouching
 	if Input.is_action_pressed("crouch") || sliding:
+		emit_signal("test_sig")
 		
 
 		speed = lerp(speed, crouch_speed, delta * lerp_speed)
