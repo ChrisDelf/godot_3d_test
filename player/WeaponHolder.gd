@@ -35,7 +35,7 @@ func initialize(start_weapons: Array):
 	#creating a dictionary to store our weapons
 	for weapon in _weapon_resources:
 		weapon_list[weapon.weapon_name] = weapon
-	for i in _start_weapons:
+	for i in start_weapons:
 		weapon_stack.push_back(i) # string reference to our start weapons
 	
 	current_weapon = weapon_list[weapon_stack[0]]
@@ -50,8 +50,7 @@ func initialize(start_weapons: Array):
 func enter():
 	animation_player.queue(current_weapon.activate_anim)
 	Globals.current_weapon = current_weapon.weapon_name
-	var temp_weapon = Globals.weapon_dict[current_weapon.weapon_name]
-	#emit_signal("update_weapon_ammo_enter", [temp_weapon.current_ammo, temp_weapon.reserve_ammo])
+
 
 func exit(_next_weapon: String):
 	#in order to change weapons first call exit

@@ -18,9 +18,14 @@ class_name  WeaponParent
 
 @export var auto_fire: bool
 @export var can_fire: bool
+@export_flags("HitScan", "Projectile") var Type
+@export var weapon_range: int
+@export var damage: int
+
+enum {NULL,HITSCAN, PROJECTILE}
 
 @onready var animation_player = $"../../AnimationPlayer"
-
+@onready var bullet_point = $"../BulletMarker"
 #signal update_ammo
 
 func _ready():
@@ -41,40 +46,38 @@ func _process(_delta):
 				if current_ammo > 0:
 					fire()
 				else:
-					update_ammo()
 					reload()
 
 func reload():
 	can_fire = false
-	print(reserve_ammo, "/current ammo ", current_ammo)
 	#grabbing my globals for the current ammo to update the reload
 	var temp_array = Globals.ammo_list
-	print("temp_array", temp_array)
+	
 	reserve_ammo = temp_array[1]
 	current_ammo = temp_array[0]
+	
 	var reload_amount = magazine - current_ammo
 	#checking to see if we have enough ammo
+	
+	#normal reload
 	if reserve_ammo > reload_amount:
-		
 		reserve_ammo -= reload_amount
-	
 		current_ammo += reload_amount
-		animation_player.play(reload_anim)
-	
+
 		update_ammo()
+		animation_player.play(reload_anim)
 		can_fire= true
-		
 	else:
-		
+		# if we truly have no ammo left
 		if reserve_ammo == 0:
-			print("no ammo left")
 			can_fire= true
 			return
-			
 		else:
-			current_ammo += reload_amount
+			# we have less ammo than what a magazine could fill
+			current_ammo += reserve_ammo
 			reserve_ammo = 0
 			update_ammo()
+			animation_player.play(reload_anim)
 			can_fire= true
 
 func fire():
@@ -82,8 +85,17 @@ func fire():
 		can_fire = false
 		animation_player.play(hip_fire)
 		current_ammo -= 1
-		print(current_ammo)
 		update_ammo()
+		var camera_collision = get_camera_collision()
+		match Type:
+			NULL:
+				print("A Weapon has not been Choosen")
+			HITSCAN:
+				hit_scan_collision(camera_collision)
+			PROJECTILE:
+				pass
+			
+			
 
 
 func _notification(what):
@@ -96,7 +108,42 @@ func update_ammo():
 			Globals.ammo_list = ammo_list
 
 
+func get_camera_collision()->Vector3:
+	var camera = get_viewport().get_camera_3d()
+	var viewport = get_viewport().get_size()
+	
+	#getting the center of the screen
+	var ray_origin = camera.project_ray_origin(viewport/2)
+	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*weapon_range
+	
+	#now we create ray from the gun to the center of the screen
+	var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin,ray_end)
+	var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	
+	if not intersection.is_empty():
+		#hitscan
+		var col_point = intersection.position
+		return col_point
+	else:
+		#projectile
+		return ray_end
 
+func hit_scan_collision(collision_point):
+	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
+	var new_intersection = PhysicsRayQueryParameters3D.create(bullet_point.get_global_transform().origin,collision_point*bullet_direction*2)
+	
+	#pulling the mesh form the 3d world to see if we hit anything
+	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	
+	if bullet_collision:
+		
+		hit_scan_damage(bullet_collision.collider)
+		
+	
 
+func hit_scan_damage(collider):
+	print(collider)
+	if collider.is_in_group("Target") and collider.has_method("hit_successful"):
+		collider.hit_successful(damage)
 
 

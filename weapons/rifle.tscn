@@ -6,20 +6,6 @@
 
 [node name="rifle" instance=ExtResource("1_hwd7s")]
 script = ExtResource("2_iudhq")
-weapon_name = null
-activate_anim = null
-hip_fire = null
-reload_anim = null
-deactivate_anim = null
-out_of_ammo_anim = null
-run_animation = null
-walk_animation = null
-current_ammo = null
-reserve_ammo = null
-magazine = null
-max_ammo = null
-auto_fire = null
-can_fire = null
 
 [node name="rifle_mag" parent="." index="0" instance=ExtResource("2_r1fby")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0279807, 0.0382571, -0.323322)

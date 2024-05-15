@@ -41,8 +41,8 @@ func _process(_delta):
 
 
 
-func _on_weapon_holder_weapon_change(name):
-	current_weapon_label.text = name
+func _on_weapon_holder_weapon_change(weapon_name):
+	current_weapon_label.text = weapon_name
 
 
 func _on_weapon_holder_update_weapon_ammo_enter(ammo):

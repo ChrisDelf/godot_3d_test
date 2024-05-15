@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0w3lgpo6etcv"]
+
+[ext_resource type="Script" path="res://physic_target.gd" id="1_43tt1"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_tvpba"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hqks7"]
+albedo_color = Color(1, 0.466667, 0.266667, 1)
+metallic = 0.53
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fxmk4"]
+
+[node name="box" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.490794, 0)
+script = ExtResource("1_43tt1")
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 2
+collision_mask = 3
+
+[node name="Cube" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_tvpba")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_hqks7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_fxmk4")
