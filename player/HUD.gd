@@ -20,7 +20,7 @@ extends CanvasLayer
 	#for weapon in weapon_stack:
 		#current_weapon_stack.text += "\n" + weapon
 #
-func _process(_delta):
+func _physics_process(_delta):
 	current_weapon_label.text = Globals.current_weapon
 	
 	var ammo = Globals.ammo_list

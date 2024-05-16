@@ -51,6 +51,7 @@ mesh = SubResource("BoxMesh_3b4b8")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="TestWall"]
 collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestWall/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_l0uxo")
@@ -112,3 +113,6 @@ shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.781139, 0.624357, 0, -0.624357, 0.781139, 0, 8.52175, 8.92198)

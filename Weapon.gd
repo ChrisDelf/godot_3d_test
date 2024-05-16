@@ -26,6 +26,7 @@ enum {NULL,HITSCAN, PROJECTILE}
 
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var bullet_point = $"../BulletMarker"
+
 #signal update_ammo
 
 func _ready():
@@ -34,7 +35,7 @@ func _ready():
 
 
 
-func _process(_delta):
+func _physics_process(_delta):
 	if Globals.current_weapon == weapon_name:
 		if Input.is_action_just_pressed("reload"):
 			if can_fire:
@@ -87,6 +88,7 @@ func fire():
 		current_ammo -= 1
 		update_ammo()
 		var camera_collision = get_camera_collision()
+		
 		match Type:
 			NULL:
 				print("A Weapon has not been Choosen")
@@ -106,7 +108,20 @@ func _notification(what):
 func update_ammo():
 			var ammo_list = [current_ammo,reserve_ammo ]
 			Globals.ammo_list = ammo_list
-
+#func get_camera_collision():
+	#var center = get_viewport().get_size()/2
+	#
+	#var ray_origin = project_ray_origin(center)
+	#var ray_end = ray_origin +  project_ray_normal(center)*ray_range
+	#
+	#var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
+#
+	#var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
+	#
+	#if not intersection.is_empty():
+		#print(intersection.collider.name)
+	#else:
+		#print("nothing")
 
 func get_camera_collision()->Vector3:
 	var camera = get_viewport().get_camera_3d()
@@ -115,14 +130,16 @@ func get_camera_collision()->Vector3:
 	#getting the center of the screen
 	var ray_origin = camera.project_ray_origin(viewport/2)
 	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*weapon_range
+
 	
 	#now we create ray from the gun to the center of the screen
 	var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin,ray_end)
 	var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
-	
+
 	if not intersection.is_empty():
 		#hitscan
 		var col_point = intersection.position
+		
 		return col_point
 	else:
 		#projectile
@@ -130,8 +147,8 @@ func get_camera_collision()->Vector3:
 
 func hit_scan_collision(collision_point):
 	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
-	var new_intersection = PhysicsRayQueryParameters3D.create(bullet_point.get_global_transform().origin,collision_point*bullet_direction*2)
-	
+	var new_intersection = PhysicsRayQueryParameters3D.create(bullet_point.get_global_transform().origin,collision_point+bullet_direction*2)
+
 	#pulling the mesh form the 3d world to see if we hit anything
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
 	
@@ -143,7 +160,8 @@ func hit_scan_collision(collision_point):
 
 func hit_scan_damage(collider):
 	print(collider)
-	if collider.is_in_group("Target") and collider.has_method("hit_successful"):
+	if collider.is_in_group("Targets") and collider.has_method("hit_successful"):
+		print("POOP")
 		collider.hit_successful(damage)
 
 

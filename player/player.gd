@@ -98,7 +98,7 @@ func _physics_process(delta):
 	
 	#crouching
 	if Input.is_action_pressed("crouch") || sliding:
-		emit_signal("test_sig")
+	
 		
 
 		speed = lerp(speed, crouch_speed, delta * lerp_speed)
