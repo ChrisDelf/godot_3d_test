@@ -12,6 +12,7 @@ signal weapon_change
 signal update_weapon_ammo_enter
 signal update_stack
 signal update_dict
+signal update_current_weapon
 @export var _weapon_resources: Array[Node3D]
 
 @export var _start_weapons: Array[String]
@@ -49,7 +50,7 @@ func initialize(start_weapons: Array):
 
 func enter():
 	animation_player.queue(current_weapon.activate_anim)
-	Globals.current_weapon = current_weapon.weapon_name
+	Globals.current_weapon = current_weapon
 
 
 func exit(_next_weapon: String):
@@ -61,7 +62,7 @@ func exit(_next_weapon: String):
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
-	emit_signal("weapon_change", weapon_name)
+	emit_signal("weapon_change", current_weapon)
 	next_weapon = ""
 	enter()
 

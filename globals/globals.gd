@@ -9,7 +9,7 @@ var player_state: = "idle":
 	set(value):
 		player_state = value
 		stat_change.emit()
-var current_weapon: = "unarmed":
+var current_weapon:Node:
 	set(value):
 		current_weapon = value
 		stat_change.emit()

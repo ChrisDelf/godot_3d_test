@@ -6,23 +6,9 @@ extends CanvasLayer
 @onready var current_player_stance =$VBoxContainer/StanceContainer/PlayerStance
 
 
-#func _ready():
-	#current_weapon_label.text = Globals.current_weapon
-	#
-	#var ammo = Globals.ammo_list
-#
-	#if len(ammo) != 0:
-		#current_ammo.set_text(str(ammo[0])+ " / "+ str(ammo[1]))
-	#
-	#var weapon_stack = Globals.weapon_stack
-	#
-	#current_weapon_stack.set_text("")
-	#for weapon in weapon_stack:
-		#current_weapon_stack.text += "\n" + weapon
 #
 func _physics_process(_delta):
-	current_weapon_label.text = Globals.current_weapon
-	
+	#current_weapon_label.text = Globals.current_weapon
 	var ammo = Globals.ammo_list
 
 	if len(ammo) != 0:
@@ -42,7 +28,7 @@ func _physics_process(_delta):
 
 
 func _on_weapon_holder_weapon_change(weapon_name):
-	current_weapon_label.text = weapon_name
+	current_weapon_label.text = weapon_name.name
 
 
 func _on_weapon_holder_update_weapon_ammo_enter(ammo):

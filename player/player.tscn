@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=33 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://tpy3riu1htft" path="res://weapons/rifle.tscn" id="2_5e6iy"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://3ullycelqk7b" path="res://Interface/user_interface.tscn" id="5_hpnna"]
 [ext_resource type="Script" path="res://player/IdlePlayerState.gd" id="5_j8ths"]
 [ext_resource type="Script" path="res://player/HUD.gd" id="5_p0uaf"]
+[ext_resource type="PackedScene" uid="uid://te5sn0fw0ec1" path="res://weapon_resources/bullet.tscn" id="5_u487o"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -826,7 +827,8 @@ _weapon_resources = [NodePath("rifle"), NodePath("revolver")]
 _start_weapons = Array[String](["rifle", "revolver"])
 
 [node name="revolver" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("3_hkh63")]
-transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90928e-09, -0.999115, 0.0420325, -3.61999e-06, 0.375223, -0.104754, -0.429977)
+transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90963e-09, -0.999115, 0.0420326, -3.61999e-06, 0.375223, -0.104754, -0.429977)
+visible = false
 activate_anim = "revolver_activate"
 hip_fire = "revolver_shoot"
 reload_anim = "revolver_reload"
@@ -841,7 +843,6 @@ damage = 35
 
 [node name="rifle" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(0.540033, 0, -0.841643, 0, 0.999998, 0, 0.841643, 0, 0.540033, 0.392272, -0.945056, -1.24942)
-visible = false
 weapon_name = "rifle"
 activate_anim = "rifle_activate"
 hip_fire = "rifle_shoot"
@@ -854,9 +855,11 @@ reserve_ammo = 60
 magazine = 30
 max_ammo = 100
 can_fire = true
-Type = 1
+Type = 2
 weapon_range = 2000
 damage = 1
+projectile_to_load = ExtResource("5_u487o")
+projectile_velocity = 100
 
 [node name="BulletMarker" type="Marker3D" parent="Neck/Head/Eyes/WeaponHolder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.368114, -0.297107, -0.787791)

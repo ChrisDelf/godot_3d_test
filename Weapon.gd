@@ -21,13 +21,15 @@ class_name  WeaponParent
 @export_flags("HitScan", "Projectile") var Type
 @export var weapon_range: int
 @export var damage: int
+@export var projectile_to_load: PackedScene
+@export var projectile_velocity:int
 
 enum {NULL,HITSCAN, PROJECTILE}
 
 @onready var animation_player = $"../../AnimationPlayer"
 @onready var bullet_point = $"../BulletMarker"
 
-#signal update_ammo
+var debug_bullet = preload("res://weapon_resources/bullet_debug.tscn")
 
 func _ready():
 	can_fire = true
@@ -36,18 +38,19 @@ func _ready():
 
 
 func _physics_process(_delta):
-	if Globals.current_weapon == weapon_name:
-		if Input.is_action_just_pressed("reload"):
-			if can_fire:
-				reload()
-	
-		if Input.is_action_pressed("primary action"):
-			if can_fire:
-				
-				if current_ammo > 0:
-					fire()
-				else:
+	if !Globals.current_weapon == null:
+		if Globals.current_weapon.name == weapon_name:
+			if Input.is_action_just_pressed("reload"):
+				if can_fire:
 					reload()
+
+			if Input.is_action_pressed("primary action"):
+				if can_fire:
+					
+					if current_ammo > 0:
+						fire()
+					else:
+						reload()
 
 func reload():
 	can_fire = false
@@ -95,7 +98,8 @@ func fire():
 			HITSCAN:
 				hit_scan_collision(camera_collision)
 			PROJECTILE:
-				pass
+				print(camera_collision)
+				launch_projectile(camera_collision)
 			
 			
 
@@ -108,20 +112,6 @@ func _notification(what):
 func update_ammo():
 			var ammo_list = [current_ammo,reserve_ammo ]
 			Globals.ammo_list = ammo_list
-#func get_camera_collision():
-	#var center = get_viewport().get_size()/2
-	#
-	#var ray_origin = project_ray_origin(center)
-	#var ray_end = ray_origin +  project_ray_normal(center)*ray_range
-	#
-	#var new_intersection = PhysicsRayQueryParameters3D.create(ray_origin, ray_end)
-#
-	#var intersection = get_world_3d().direct_space_state.intersect_ray(new_intersection)
-	#
-	#if not intersection.is_empty():
-		#print(intersection.collider.name)
-	#else:
-		#print("nothing")
 
 func get_camera_collision()->Vector3:
 	var camera = get_viewport().get_camera_3d()
@@ -151,17 +141,28 @@ func hit_scan_collision(collision_point):
 
 	#pulling the mesh form the 3d world to see if we hit anything
 	var bullet_collision = get_world_3d().direct_space_state.intersect_ray(new_intersection)
-	
 	if bullet_collision:
+		#instantiating a bullet hit
+		var hit_indicator = debug_bullet.instantiate()
+		var world = get_tree().get_root().get_child(0)
+		world.add_child(hit_indicator)
+		hit_indicator.global_translate(bullet_collision.position)
 		
 		hit_scan_damage(bullet_collision.collider)
 		
 	
 
 func hit_scan_damage(collider):
-	print(collider)
 	if collider.is_in_group("Targets") and collider.has_method("hit_successful"):
-		print("POOP")
+		
 		collider.hit_successful(damage)
 
+func launch_projectile(point: Vector3):
+	
+	var direction = (point - bullet_point.get_global_transform().origin).normalized()
+	var projectile = projectile_to_load.instantiate()
+	
+	bullet_point.add_child(projectile)
+	projectile.damage = damage
+	projectile.set_linear_velocity(direction*projectile_velocity)
 
