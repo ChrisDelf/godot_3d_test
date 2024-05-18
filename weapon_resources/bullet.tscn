@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://te5sn0fw0ec1"]
+
+[ext_resource type="Script" path="res://weapon_resources/bullet.gd" id="1_1g6py"]
+[ext_resource type="ArrayMesh" uid="uid://csmx7rci3ywnh" path="res://Game_Resources/Bullet_in_flight_with_shell_casing__0518051642_refine.obj" id="2_cbl17"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3o5h"]
+albedo_color = Color(1, 0.792157, 0.690196, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wynt0"]
+radius = 2.45098
+height = 14.0931
+
+[node name="Bullet" type="RigidBody3D"]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, 0)
+top_level = true
+collision_layer = 4
+collision_mask = 3
+mass = 0.01
+continuous_cd = true
+max_contacts_reported = 50
+contact_monitor = true
+script = ExtResource("1_1g6py")
+
+[node name="test_bullet" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
+mesh = ExtResource("2_cbl17")
+surface_material_override/0 = SubResource("StandardMaterial3D_a3o5h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_wynt0")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.552
+one_shot = true
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

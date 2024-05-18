@@ -17,6 +17,7 @@ mesh = SubResource("PlaneMesh_xrsyi")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D"]
 collision_layer = 2
+collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_nfeu0")

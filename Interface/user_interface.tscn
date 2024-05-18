@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Reticle.gd" id="1_2f0q0"]
 
-[node name="UserInterface" type="Node"]
+[node name="CrossHair" type="Node"]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
