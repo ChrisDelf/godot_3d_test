@@ -98,7 +98,6 @@ func fire():
 			HITSCAN:
 				hit_scan_collision(camera_collision)
 			PROJECTILE:
-				print(camera_collision)
 				launch_projectile(camera_collision)
 			
 			

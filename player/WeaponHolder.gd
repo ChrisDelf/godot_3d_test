@@ -2,10 +2,10 @@ extends Node3D
 
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 
-var current_weapon = null
+var current_weapon = Globals.current_weapon
 var weapon_stack = [] # the array of weapons that I have
 var weapon_indicator = 0
-var weapon_list = {}
+var weapon_list = Globals.weapon_dict
 var next_weapon: String
 
 signal weapon_change
@@ -43,14 +43,15 @@ func initialize(start_weapons: Array):
 	Globals.weapon_stack = weapon_stack
 	Globals.weapon_dict = weapon_list
 	emit_signal("update_stack", weapon_stack)
-	if weapon_list != null:
-		emit_signal("update_dict", weapon_list)
-	
+	#if weapon_list != null:
+		#emit_signal("update_dict", weapon_list)
+	print(Globals.current_weapon)
 	enter()
 
 func enter():
 	animation_player.queue(current_weapon.activate_anim)
 	Globals.current_weapon = current_weapon
+
 
 
 func exit(_next_weapon: String):
@@ -59,6 +60,7 @@ func exit(_next_weapon: String):
 		if animation_player.get_current_animation() != current_weapon.deactivate_anim:
 			animation_player.play(current_weapon.deactivate_anim)
 			next_weapon = _next_weapon
+			
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
@@ -70,5 +72,16 @@ func _on_animation_player_animation_finished(anim_name):
 	if anim_name == current_weapon.deactivate_anim:
 		change_weapon(next_weapon)
 		
+func _on_pick_up_detection_body_entered(body):
+	# checking if the weapon is already in our inventory
+	var weapon_in_stack = weapon_stack.find(body.weapon_name,0)
+	
+	if weapon_in_stack == -1: # pick up
+		weapon_stack.push_front(body.weapon_name)
+		Globals.weapon_dict[body.weapon_name] = body
+		var temp_list = [body.current_ammo, body.reserve_ammo]
+		Globals.ammo_list = temp_list
 		
-
+		exit(weapon_stack[0])
+		body.queue_free()
+		

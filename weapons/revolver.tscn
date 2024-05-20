@@ -1,10 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://brsibbboo0eli"]
+[gd_scene load_steps=2 format=3 uid="uid://brsibbboo0eli"]
 
 [ext_resource type="PackedScene" uid="uid://d0c3le62e7l84" path="res://weapons/weapon.tscn" id="1_o5seu"]
-[ext_resource type="PackedScene" uid="uid://c3t76sc0eu6wh" path="res://revolver.glb" id="1_rq3v6"]
 
-[node name="Revolver" instance=ExtResource("1_o5seu")]
+[node name="Revolver2" instance=ExtResource("1_o5seu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0331863, 0)
 weapon_name = "revolver"
-
-[node name="model" parent="." index="0" instance=ExtResource("1_rq3v6")]
-transform = Transform3D(-0.05, 0, 7.54979e-09, 0, 0.05, 0, -7.54979e-09, 0, -0.05, 0, -0.343181, 0)
+current_ammo = 6
+reserve_ammo = 12

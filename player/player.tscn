@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://tpy3riu1htft" path="res://weapons/rifle.tscn" id="2_5e6iy"]
 [ext_resource type="Script" path="res://player/WeaponHolder.gd" id="2_7txp3"]
-[ext_resource type="PackedScene" uid="uid://brsibbboo0eli" path="res://weapons/revolver.tscn" id="3_hkh63"]
 [ext_resource type="Script" path="res://player/Camera3D.gd" id="5_5ndx2"]
 [ext_resource type="PackedScene" uid="uid://3ullycelqk7b" path="res://Interface/user_interface.tscn" id="5_hpnna"]
 [ext_resource type="Script" path="res://player/IdlePlayerState.gd" id="5_j8ths"]
@@ -22,6 +21,9 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j7ul0"]
 radius = 0.4
 height = 1.0
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wftn7"]
+size = Vector3(1.50824, 0.434082, 1.52338)
 
 [sub_resource type="Animation" id="Animation_0erex"]
 resource_name = "Jump"
@@ -112,50 +114,14 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/revolver:visible")
+tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.1),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/revolver:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.599646, -0.163735, -0.565108), Vector3(0.375223, -0.104754, -0.429977)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/revolver:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.2, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(2.37807e-08, 1.5708, -0.575243), Vector3(-5.90929e-09, 1.5708, 0.042045)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WeaponHolder/BulletMarker:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector3(0.374681, -0.294128, -0.783181)]
+"values": [Vector3(0.377606, -0.227889, -0.653209)]
 }
 
 [sub_resource type="Animation" id="Animation_qj47k"]
@@ -164,46 +130,10 @@ length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/revolver:visible")
+tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.4),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/revolver:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(0.524786, 0.00967813, -0.429977), Vector3(0.599646, -0.163735, -0.565108)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/revolver:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(2.37807e-08, 1.5708, -0.575243)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WeaponHolder/BulletMarker:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
 "times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -213,42 +143,6 @@ tracks/3/keys = {
 [sub_resource type="Animation" id="Animation_8732m"]
 resource_name = "revolver_reload"
 length = 1.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/revolver:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/revolver:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.4, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.375223, -0.104754, -0.429977), Vector3(0.375223, -0.243795, -0.667224), Vector3(0.375223, -0.243795, -0.667224), Vector3(0.375223, -0.104754, -0.429977)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/revolver:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.4, 1, 1.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(3.2071e-06, 1.5708, -1.04811), Vector3(3.2071e-06, 1.5708, -1.04811), Vector3(-5.90929e-09, 1.5708, 0.042045)]
-}
 
 [sub_resource type="Animation" id="Animation_ipvdx"]
 resource_name = "revolver_shoot"
@@ -256,58 +150,10 @@ length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/revolver:visible")
+tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/revolver:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0.375223, -0.104754, -0.429977), Vector3(0.375223, -0.104754, -0.367232), Vector3(0.375223, -0.104754, -0.429977)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/revolver:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(-1.2039e-08, 1.5708, 0.184115), Vector3(-5.90929e-09, 1.5708, 0.042045)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WeaponHolder/revolver:can_fire")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.3),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("WeaponHolder/BulletMarker:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -318,42 +164,6 @@ tracks/4/keys = {
 resource_name = "revolver_walk"
 length = 0.5
 loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/revolver:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"update": 1,
-"values": []
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/revolver:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0.524786, 0.00967813, -0.429977), Vector3(0.524786, 0.0350597, -0.429977), Vector3(0.524786, 0.00967813, -0.429977)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/revolver:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(-5.90929e-09, 1.5708, 0.042045), Vector3(-5.90929e-09, 1.5708, 0.042045)]
-}
 
 [sub_resource type="Animation" id="Animation_jotgw"]
 resource_name = "rifle_activate"
@@ -809,6 +619,14 @@ shape = SubResource("ConvexPolygonShape3D_qg0lc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.447547, 0)
 shape = SubResource("CapsuleShape3D_j7ul0")
 
+[node name="Pick_Up_Detection" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0621643, 0.214488, 0.00772095)
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Pick_Up_Detection"]
+shape = SubResource("BoxShape3D_wftn7")
+
 [node name="Neck" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.605, 0)
 
@@ -823,27 +641,11 @@ light_volumetric_fog_energy = 1.808
 
 [node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes" node_paths=PackedStringArray("_weapon_resources")]
 script = ExtResource("2_7txp3")
-_weapon_resources = [NodePath("rifle"), NodePath("revolver")]
-_start_weapons = Array[String](["rifle", "revolver"])
-
-[node name="revolver" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("3_hkh63")]
-transform = Transform3D(-3.61703e-06, 1.46253e-07, 0.999999, 0.0420326, 0.999114, 5.90963e-09, -0.999115, 0.0420326, -3.61999e-06, 0.375223, -0.104754, -0.429977)
-visible = false
-activate_anim = "revolver_activate"
-hip_fire = "revolver_shoot"
-reload_anim = "revolver_reload"
-deactivate_anim = "revolver_deactivate"
-current_ammo = 6
-reserve_ammo = 12
-magazine = 6
-can_fire = true
-Type = 1
-weapon_range = 200
-damage = 35
+_weapon_resources = [NodePath("rifle")]
+_start_weapons = Array[String](["rifle"])
 
 [node name="rifle" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(0.540033, 0, -0.841643, 0, 0.999998, 0, 0.841643, 0, 0.540033, 0.392272, -0.945056, -1.24942)
-weapon_name = "rifle"
 activate_anim = "rifle_activate"
 hip_fire = "rifle_shoot"
 reload_anim = "rifle_reload"
@@ -859,10 +661,9 @@ Type = 2
 weapon_range = 2000
 damage = 1
 projectile_to_load = ExtResource("5_u487o")
-projectile_velocity = 100
+projectile_velocity = 150
 
 [node name="BulletMarker" type="Marker3D" parent="Neck/Head/Eyes/WeaponHolder"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.368114, -0.297107, -0.787791)
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
@@ -871,8 +672,6 @@ script = ExtResource("5_5ndx2")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Neck/Head/Eyes/Camera3D"]
 script = ExtResource("5_p0uaf")
-
-[node name="UserInterface" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("5_hpnna")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Neck/Head/Eyes/Camera3D/CanvasLayer"]
 offset_right = 40.0
@@ -918,6 +717,8 @@ text = "Current Stance:"
 [node name="PlayerStance" type="Label" parent="Neck/Head/Eyes/Camera3D/CanvasLayer/VBoxContainer/StanceContainer"]
 layout_mode = 2
 
+[node name="CrossHair" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("5_hpnna")]
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Neck/Head/Eyes"]
 libraries = {
 "": SubResource("AnimationLibrary_j6bnf")
@@ -942,6 +743,7 @@ script = ExtResource("5_j8ths")
 
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
+[connection signal="body_entered" from="Pick_Up_Detection" to="Neck/Head/Eyes/WeaponHolder" method="_on_pick_up_detection_body_entered"]
 [connection signal="update_dict" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_dict"]
 [connection signal="update_stack" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_stack"]
 [connection signal="update_weapon_ammo_enter" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_weapon_ammo_enter"]

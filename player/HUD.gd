@@ -22,13 +22,9 @@ func _physics_process(_delta):
 	
 	current_player_stance.text = Globals.player_state
 
-
-
-
-
-
 func _on_weapon_holder_weapon_change(weapon_name):
-	current_weapon_label.text = weapon_name.name
+	print(weapon_name)
+	#current_weapon_label.text = weapon_name.name
 
 
 func _on_weapon_holder_update_weapon_ammo_enter(ammo):

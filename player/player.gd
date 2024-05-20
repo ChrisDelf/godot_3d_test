@@ -55,7 +55,7 @@ var current_weapon: Node = null
 @onready var head_lamp = $Neck/Head/SpotLight3D
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
-@onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/UserInterface
+@onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
 
 
 func _ready():

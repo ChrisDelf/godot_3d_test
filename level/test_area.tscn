@@ -23,7 +23,7 @@ points = PackedVector3Array(-0.5, -0.5, -0.5, 0.0146517, 0.470697, 0.470697, 0.0
 [node name="Test_area" type="Node3D"]
 
 [node name="Floor" parent="." instance=ExtResource("1_bfjyb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000675991, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00648578, 0.0237427, -0.00906849)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.24579, 0, 0, 0, 1, -0.000675991, 0.23463, 0)
@@ -113,6 +113,14 @@ shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)
+
+[node name="box2" parent="." instance=ExtResource("4_vulm3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88446, 5.88281, -5.23935)
+
+[node name="box3" parent="." instance=ExtResource("4_vulm3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.02916, 6.18562, -5.67092)
+
+[node name="Weapons" type="Node" parent="."]
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.781139, 0.624357, 0, -0.624357, 0.781139, 0, 8.52175, 8.92198)
