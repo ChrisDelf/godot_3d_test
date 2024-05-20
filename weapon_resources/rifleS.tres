@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="weapon_resource" load_steps=2 format=3 uid="uid://nfqxc48vc6pr"]
+
+[ext_resource type="Script" path="res://weapon_resources/weapon_resource.gd" id="1_v33o8"]
+
+[resource]
+script = ExtResource("1_v33o8")
+weapon_name = "rifleS"
+activate_anim = "rifleS_activate"
+hip_fire = "rifleS_shoot"
+reload_anim = "rifleS_reload"
+deactivate_anim = "rifleS_deactivate"
+out_of_ammo_anim = ""
+run_animation = ""
+walk_animation = ""
+current_ammo = 25
+reserve_ammo = 50
+magazine = 25
+max_ammo = 0
+auto_fire = false
+can_fire = true
+Type = 1
+weapon_range = 200
+damage = 1
+projectile_velocity = 0

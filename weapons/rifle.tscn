@@ -1,20 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://tpy3riu1htft"]
+[gd_scene load_steps=4 format=3 uid="uid://ccrllwcrpdten"]
 
 [ext_resource type="PackedScene" uid="uid://bplrx7cirk2r3" path="res://rifle.glb" id="1_hwd7s"]
-[ext_resource type="Script" path="res://weapons/rifle.gd" id="2_iudhq"]
-[ext_resource type="PackedScene" uid="uid://cs57sph06navl" path="res://weapons/rifle_mag.tscn" id="2_r1fby"]
+[ext_resource type="PackedScene" uid="uid://dscw8j0ghcih1" path="res://rifle_mag.glb" id="2_irtoq"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ovpx4"]
 points = PackedVector3Array(1.25831, 0.0207439, 0.167287, -0.00990796, -0.0188646, 0.0286187, 1.25831, -0.0386804, -0.0308231, 1.17898, -0.0386804, 0.147444, 1.15912, 0.0405598, -0.050637, 0.227945, 0.0405598, 0.0286187, 0.881791, -0.0584963, -0.050637, 0.00995445, 0.0207439, -0.0902649, 0.861928, 0.0207439, 0.18713, 1.23845, 0.0405598, 0.167287, 0.00995445, -0.0188646, -0.0902649, 0.861928, -0.0188646, 0.18713, 0.227945, -0.0386804, 0.0286187, 0.960868, -0.0386804, -0.070451, -0.00990796, 0.0207439, 0.0286187, 0.804466, 0.046009, -0.0290885, 1.25831, 0.0405598, -0.0308231, 0.980731, 0.0405598, -0.070451, 0.208082, 0.0405598, -0.050637, 1.25831, -0.0188646, 0.167287, 0.208082, -0.0386804, -0.050637, 0.805959, 0.0463824, 0.0460523, 1.23845, -0.0386804, 0.147444, 1.19884, 0.000939682, -0.050637, -0.00990796, -0.0188646, -0.0308231, 1.25831, 0.0405598, 0.127659, 0.901405, -0.0188646, 0.18713, 1.21858, 0.0405598, 0.167287, -0.00990796, 0.0207439, -0.0308231, 1.25831, -0.0386804, 0.0286187, 0.208082, -0.0386804, 0.00880476, 1.17898, -0.0188646, -0.050637)
 
 [node name="rifle" instance=ExtResource("1_hwd7s")]
-script = ExtResource("2_iudhq")
-weapon_name = "rifle"
-current_ammo = 30
-reserve_ammo = 30
 
-[node name="rifle_mag" parent="." index="0" instance=ExtResource("2_r1fby")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0279807, 0.0382571, -0.323322)
+[node name="rifle_mag" parent="." index="0" instance=ExtResource("2_irtoq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0278245, 0.0527911, 0)
 
 [node name="Area3D" type="Area3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0279807, 0.0382571, -0.323322)
