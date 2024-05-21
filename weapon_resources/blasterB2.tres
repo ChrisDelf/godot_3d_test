@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="weapon_resource" load_steps=3 format=3 uid="uid://4v21t1v0v7nu"]
+
+[ext_resource type="PackedScene" uid="uid://te5sn0fw0ec1" path="res://weapon_resources/bullet.tscn" id="1_7sdvp"]
+[ext_resource type="Script" path="res://weapon_resources/weapon_resource.gd" id="1_i60ek"]
+
+[resource]
+script = ExtResource("1_i60ek")
+weapon_name = "blasterB2"
+activate_anim = "blasterB2_activate"
+hip_fire = "blasterB2_shoot"
+reload_anim = "blasterB2_reload"
+deactivate_anim = "blasterB2_deactivate"
+out_of_ammo_anim = ""
+run_animation = ""
+walk_animation = ""
+current_ammo = 10
+reserve_ammo = 50
+magazine = 10
+max_ammo = 0
+auto_fire = false
+can_fire = true
+Type = 2
+weapon_range = 200
+damage = 10
+projectile_to_load = ExtResource("1_7sdvp")
+projectile_velocity = 100

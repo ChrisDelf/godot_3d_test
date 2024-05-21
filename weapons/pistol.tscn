@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dp31j66dsu8ex"]
-
-[ext_resource type="Script" path="res://Pistol.gd" id="1_ca68u"]
-
-[node name="Pistol" type="Node3D"]
-script = ExtResource("1_ca68u")

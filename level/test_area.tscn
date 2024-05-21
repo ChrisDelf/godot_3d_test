@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://08m53alostbe"]
+[gd_scene load_steps=12 format=3 uid="uid://08m53alostbe"]
 
 [ext_resource type="PackedScene" uid="uid://bifrn6tihunkl" path="res://level/floor.tscn" id="1_bfjyb"]
 [ext_resource type="PackedScene" uid="uid://bgcib1r1vdaj4" path="res://player/player.tscn" id="2_0kklf"]
 [ext_resource type="MeshLibrary" uid="uid://bnwuyllixn5no" path="res://tileset.tres" id="3_nx3lr"]
 [ext_resource type="PackedScene" uid="uid://d0w3lgpo6etcv" path="res://Doodas/box.tscn" id="4_vulm3"]
+[ext_resource type="Script" path="res://level/Camera3D.gd" id="5_i83gv"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_8co8c"]
 
@@ -23,7 +24,7 @@ points = PackedVector3Array(-0.5, -0.5, -0.5, 0.0146517, 0.470697, 0.470697, 0.0
 [node name="Test_area" type="Node3D"]
 
 [node name="Floor" parent="." instance=ExtResource("1_bfjyb")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000675991, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00648578, 0.0237427, -0.00906849)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.24579, 0, 0, 0, 1, -0.000675991, 0.23463, 0)
@@ -114,5 +115,14 @@ shape = SubResource("ConvexPolygonShape3D_525og")
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)
 
+[node name="box2" parent="." instance=ExtResource("4_vulm3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88446, 5.88281, -5.23935)
+
+[node name="box3" parent="." instance=ExtResource("4_vulm3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.02916, 6.18562, -5.67092)
+
+[node name="Weapons" type="Node" parent="."]
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.781139, 0.624357, 0, -0.624357, 0.781139, 0, 8.52175, 8.92198)
+transform = Transform3D(0.996679, 0, -0.0814341, 0.0476781, 0.810686, 0.583537, 0.0660174, -0.585481, 0.807993, 0, 7.97226, 8.01855)
+script = ExtResource("5_i83gv")

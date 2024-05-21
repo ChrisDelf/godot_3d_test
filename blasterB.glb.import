@@ -3,17 +3,17 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c3t76sc0eu6wh"
-path="res://.godot/imported/revolver.glb-2c7956641995af74d7735194b83d6a40.scn"
+uid="uid://stw3id86520b"
+path="res://.godot/imported/blasterB.glb-0f02cf35bf9911357ba6ba0d13abb7bc.scn"
 
 [deps]
 
-source_file="res://revolver.glb"
-dest_files=["res://.godot/imported/revolver.glb-2c7956641995af74d7735194b83d6a40.scn"]
+source_file="res://blasterB.glb"
+dest_files=["res://.godot/imported/blasterB.glb-0f02cf35bf9911357ba6ba0d13abb7bc.scn"]
 
 [params]
 
-nodes/root_type="MeshInstance3D"
+nodes/root_type=""
 nodes/root_name=""
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
