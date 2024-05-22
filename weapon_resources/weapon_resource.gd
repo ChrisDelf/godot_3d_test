@@ -17,6 +17,7 @@ class_name weapon_resource
 @export var magazine: int
 @export var max_ammo: int
 
+@export var is_droppable: bool
 @export var auto_fire: bool
 @export var can_fire: bool = true
 @export_flags("HitScan", "Projectile") var Type
@@ -24,6 +25,8 @@ class_name weapon_resource
 @export var damage: int
 @export var projectile_to_load: PackedScene
 @export var projectile_velocity:int
+
+@export var weapon_drop: PackedScene
 
 enum {NULL,HITSCAN, PROJECTILE}
 

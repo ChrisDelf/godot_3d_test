@@ -5,7 +5,7 @@ extends Node3D
 var debug_bullet = preload("res://weapon_resources/bullet_debug.tscn")
 var current_weapon = null
 var weapon_stack = [] # the array of weapons that I have
-var weapon_indicator = 0
+#var weapon_indicator = 0
 var weapon_list: = {}
 var next_weapon: String
 
@@ -26,12 +26,17 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("weapon_up"):	
-		weapon_indicator = min(weapon_indicator+1, weapon_stack.size()-1)
-		exit(weapon_stack[weapon_indicator])
+		var get_ref = weapon_stack.find(current_weapon.weapon_name)
+		get_ref = min(get_ref+1, weapon_stack.size()-1)
+		exit(weapon_stack[get_ref])
 		
 	if event.is_action_pressed("weapon_down"):
-		weapon_indicator = max(weapon_indicator-1, 0)
-		exit(weapon_stack[weapon_indicator])
+		var get_ref = weapon_stack.find(current_weapon.weapon_name)
+		get_ref = max(get_ref-1,0)
+		exit(weapon_stack[get_ref])
+	
+	if event.is_action_pressed("drop"):
+		drop(current_weapon.weapon_name)
 	
 func _physics_process(_delta):
 	
@@ -63,6 +68,7 @@ func initialize(start_weapons: Array):
 	enter()
 	
 func enter():
+	
 	animation_player.queue(current_weapon.activate_anim)
 	emit_signal("weapon_changed", current_weapon.weapon_name)
 	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
@@ -106,7 +112,6 @@ func reload():
 	#checking to see if we have enough ammo
 	
 	#normal reload
-	print(current_weapon)
 	if current_weapon.reserve_ammo > reload_amount:
 		current_weapon.reserve_ammo -= reload_amount
 		current_weapon.current_ammo += reload_amount
@@ -192,4 +197,53 @@ func _on_animation_player_animation_finished(anim_name):
 		
 	if anim_name == "blasterB2_shoot":
 		current_weapon.can_fire = true
+	
+
+
+func _on_pick_up_detection_body_entered(body):
+
+	if body.is_pickup:
+		#Checking to see if we already have the weapon in our inventory.
+		var weapon_in_stack = weapon_stack.find(body.weapon_name, 0)
+		if weapon_in_stack == -1:
+			var get_ref = weapon_stack.find(current_weapon.weapon_name)
+			weapon_stack.insert(get_ref, body.weapon_name)
+			#zero out the ammo
+			weapon_list[body.weapon_name].current_ammo = body.current_ammo
+			weapon_list[body.weapon_name].reserve_ammo = body.reserve_ammo
+			
+			emit_signal("update_weapon_stack", weapon_stack)
+			exit(body.weapon_name)
+			body.queue_free()
+		
+func drop(w_name: String):
+	
+	if weapon_list[w_name].is_droppable:
+		# checking if the item in our inventory
+		var weapon_ref = weapon_stack.find(w_name, 0)
+
+		if weapon_ref != -1:
+			# if so we are going to remove it from out weapon_stack or array
+			weapon_stack.pop_at(weapon_ref)
+			emit_signal("update_weapon_stack", weapon_stack)
+			
+			#we create the node the corresponds to the weapon being dropped
+			var weapon_dropped = weapon_list[w_name].weapon_drop.instantiate()
+			
+			weapon_dropped.current_ammo = weapon_list[w_name].current_ammo
+			weapon_dropped.reserve_ammo = weapon_list[w_name].reserve_ammo
+			
+			#now we need to set it's postion to the bullet_point that is at the end of our gun barrel.
+			weapon_dropped.set_global_transform(bullet_point.get_global_transform())
+			
+			# now we need to add the weapon to the world first we need to get scene
+			var world = get_tree().get_root().get_child(0)
+			world.add_child(weapon_dropped)
+			
+			var get_ref = weapon_stack.find(current_weapon.weapon_name)
+			get_ref = max(get_ref-1,0)
+			exit(weapon_stack[get_ref])
+		
+		
+		
 	

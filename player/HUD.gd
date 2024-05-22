@@ -17,11 +17,9 @@ func _on_weapon_holder_update_ammo(ammo):
 
 
 func _on_weapon_holder_update_weapon_stack(weapon_stack):
-	print("hello")
 	if current_weapon_stack != null:
 		current_weapon_stack.set_text("")
 		for i in weapon_stack:
-			print(i)
 			current_weapon_stack.text += "\n" + i
 
 

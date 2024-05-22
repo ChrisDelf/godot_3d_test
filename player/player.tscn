@@ -652,18 +652,17 @@ light_volumetric_fog_energy = 1.808
 [node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes"]
 script = ExtResource("2_7txp3")
 _weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo")])
-_start_weapons = Array[String](["rifleS", "blasterB2"])
+_start_weapons = Array[String](["blasterB2", "rifleS"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.991075, 0.00534655, 0.133178, 0.0135232, 0.99807, 0.0605674, -0.132598, 0.061828, -0.989237, 0.287299, -0.319994, -0.685605)
-visible = false
+transform = Transform3D(-0.978457, 0.000730416, 0.206435, -0.0741311, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)
 visible = false
 
 [node name="BulletMarker" type="Marker3D" parent="Neck/Head/Eyes/WeaponHolder"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.442843, -0.274402, -0.734308)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.450994, -0.27678, -0.733493)
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)

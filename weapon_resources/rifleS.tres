@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="weapon_resource" load_steps=2 format=3 uid="uid://nfqxc48vc6pr"]
+[gd_resource type="Resource" script_class="weapon_resource" load_steps=3 format=3 uid="uid://nfqxc48vc6pr"]
 
 [ext_resource type="Script" path="res://weapon_resources/weapon_resource.gd" id="1_v33o8"]
+[ext_resource type="PackedScene" uid="uid://dnilawkyi1lw3" path="res://spawnable_weapons/rifleS.tscn" id="2_1rk5r"]
 
 [resource]
 script = ExtResource("1_v33o8")
@@ -22,3 +23,4 @@ Type = 1
 weapon_range = 200
 damage = 1
 projectile_velocity = 0
+weapon_drop = ExtResource("2_1rk5r")
