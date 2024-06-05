@@ -201,11 +201,11 @@ func _on_animation_player_animation_finished(anim_name):
 
 
 func _on_pick_up_detection_body_entered(body):
-
+	print(body.pick_up_type)
 	if body.is_pickup:
 		#Checking to see if we already have the weapon in our inventory.
 		var weapon_in_stack = weapon_stack.find(body.weapon_name, 0)
-		if weapon_in_stack == -1:
+		if weapon_in_stack == -1 && body.pick_up_type == "Weapon":
 			var get_ref = weapon_stack.find(current_weapon.weapon_name)
 			weapon_stack.insert(get_ref, body.weapon_name)
 			#zero out the ammo
@@ -215,6 +215,17 @@ func _on_pick_up_detection_body_entered(body):
 			emit_signal("update_weapon_stack", weapon_stack)
 			exit(body.weapon_name)
 			body.queue_free()
+		else:
+			var remaining = add_ammo(body.weapon_name, body.current_ammo + body.reserve_ammo)
+			if remaining == 0:
+				print("delete weapon on ground")
+				body.queue_free()
+		
+			body.current_ammo = min(remaining, weapon_list[body.weapon_name].magazine)
+			print(max(remaining - body.current_ammo, 0))
+			body.reserve_ammo = max(remaining - body.current_ammo, 0)
+			print(body.reserve_ammo)
+			
 		
 func drop(w_name: String):
 	
@@ -244,6 +255,16 @@ func drop(w_name: String):
 			get_ref = max(get_ref-1,0)
 			exit(weapon_stack[get_ref])
 		
-		
+func add_ammo(_weapon: String, ammo:int) -> int:
+	var weapon = 	weapon_list[_weapon]
+	
+	
+	var required = weapon.max_ammo - weapon.reserve_ammo
+	var remaining = max(ammo - required, 0)
+
+	weapon.reserve_ammo += min(ammo, required)
+	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+	print(remaining)
+	return remaining
 		
 	

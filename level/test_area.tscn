@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://08m53alostbe"]
+[gd_scene load_steps=15 format=3 uid="uid://08m53alostbe"]
 
 [ext_resource type="PackedScene" uid="uid://bifrn6tihunkl" path="res://level/floor.tscn" id="1_bfjyb"]
 [ext_resource type="PackedScene" uid="uid://bgcib1r1vdaj4" path="res://player/player.tscn" id="2_0kklf"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://qfab5rsea1yh" path="res://spawnable_weapons/blasterB.tscn" id="5_5515m"]
 [ext_resource type="Script" path="res://level/Camera3D.gd" id="5_i83gv"]
 [ext_resource type="PackedScene" uid="uid://dnilawkyi1lw3" path="res://spawnable_weapons/rifleS.tscn" id="6_0ss3a"]
+[ext_resource type="PackedScene" uid="uid://fatolg7mqnh1" path="res://spawnable_weapons/blasterB2_mag.tscn" id="8_kq3bt"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_8co8c"]
 
@@ -135,3 +136,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75443, 0.914954, -8.51772)
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.996679, 0, -0.0814341, 0.0476781, 0.810686, 0.583537, 0.0660174, -0.585481, 0.807993, 0, 7.97226, 8.01855)
 script = ExtResource("5_i83gv")
+
+[node name="Ammo" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51604, -9.20818)
+
+[node name="BlasterB2_mag" parent="Ammo" instance=ExtResource("8_kq3bt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12379, -0.447959, 2.45088)
