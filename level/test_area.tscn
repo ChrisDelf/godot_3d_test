@@ -1,10 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://08m53alostbe"]
+[gd_scene load_steps=14 format=3 uid="uid://08m53alostbe"]
 
 [ext_resource type="PackedScene" uid="uid://bifrn6tihunkl" path="res://level/floor.tscn" id="1_bfjyb"]
 [ext_resource type="PackedScene" uid="uid://bgcib1r1vdaj4" path="res://player/player.tscn" id="2_0kklf"]
 [ext_resource type="MeshLibrary" uid="uid://bnwuyllixn5no" path="res://tileset.tres" id="3_nx3lr"]
 [ext_resource type="PackedScene" uid="uid://d0w3lgpo6etcv" path="res://Doodas/box.tscn" id="4_vulm3"]
+[ext_resource type="PackedScene" uid="uid://qfab5rsea1yh" path="res://spawnable_weapons/blasterB.tscn" id="5_5515m"]
 [ext_resource type="Script" path="res://level/Camera3D.gd" id="5_i83gv"]
+[ext_resource type="PackedScene" uid="uid://dnilawkyi1lw3" path="res://spawnable_weapons/rifleS.tscn" id="6_0ss3a"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_8co8c"]
 
@@ -122,6 +124,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.88446, 5.88281, -5.23935)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.02916, 6.18562, -5.67092)
 
 [node name="Weapons" type="Node" parent="."]
+
+[node name="BlasterB" parent="Weapons" instance=ExtResource("5_5515m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51604, -9.20818)
+weapon_name = "blasterB2"
+
+[node name="rifleS" parent="Weapons" instance=ExtResource("6_0ss3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75443, 0.914954, -8.51772)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.996679, 0, -0.0814341, 0.0476781, 0.810686, 0.583537, 0.0660174, -0.585481, 0.807993, 0, 7.97226, 8.01855)
