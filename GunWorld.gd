@@ -4,6 +4,8 @@ extends RigidBody3D
 @export var current_ammo: int
 @export var reserve_ammo: int
 
+@export_enum("Weapon", "Ammo") var pick_up_type: String = "Weapon"
+
 
 var is_pickup: bool = false
 

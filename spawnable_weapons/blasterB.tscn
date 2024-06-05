@@ -129,7 +129,6 @@ collision_mask = 15
 script = ExtResource("1_psf6k")
 weapon_name = "blasterB"
 current_ammo = 10
-reserve_ammon = 20
 
 [node name="blasterB" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15, 0, -0.15)

@@ -655,7 +655,7 @@ _weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]
 _start_weapons = Array[String](["blasterB2", "rifleS"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.978457, 0.000730416, 0.206435, -0.0741311, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
+transform = Transform3D(-0.978457, 0.000730483, 0.206435, -0.0741311, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)
