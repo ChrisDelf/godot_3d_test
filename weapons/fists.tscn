@@ -1,0 +1,322 @@
+[gd_scene load_steps=9 format=3 uid="uid://b7g63s7dulymw"]
+
+[ext_resource type="Script" path="res://weapons/fists.gd" id="1_rak57"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_v7x8s"]
+size = Vector3(0.6, 0.15, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0hc45"]
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="Animation" id="Animation_oxsbe"]
+resource_name = "fist_deactivate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.4),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-0.0333229, -0.109128, 0), Vector3(0, -0.392557, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.726022, 0.280684, 0), Vector3(0.726022, 0, 0), Vector3(0.726022, 0.280684, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Left:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, -0.0940827, 0), Vector3(0, -0.23975, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Left:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0.726022, -0.0533198, 0), Vector3(0.726022, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_f0ou5"]
+resource_name = "fist_activate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.392557, 0), Vector3(0, -0.14751, 0), Vector3(-0.0333229, -0.109128, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.726022, 0, 0), Vector3(0.726022, 0.280684, 0), Vector3(0.726022, 0.280684, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Left:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.392557, 0), Vector3(0, -0.23975, 0), Vector3(0, -0.0940827, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Left:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0.726022, 0, 0), Vector3(0.726022, 0, 0), Vector3(0.726022, -0.0533198, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_btwt2"]
+resource_name = "fist_punch_right"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.0333229, -0.109128, 0), Vector3(-0.0333229, 0.0424808, -0.116763), Vector3(-0.0333229, 0.0424808, -0.116763), Vector3(-0.0333229, -0.109128, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.726022, 0.280684, 0), Vector3(0.44155, 0.481553, -0.0888552), Vector3(0.44155, 0.481553, -0.0888552), Vector3(0.726022, 0.280684, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Left:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.0940827, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Left:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.726022, -0.0533198, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mdrra"]
+resource_name = "fist_punch_left"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Right:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-0.0333229, -0.109128, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Right:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.726022, 0.280684, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Left:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.0940827, 0), Vector3(0.0672095, 0.0137606, -0.134242), Vector3(0.0672095, 0.0137606, -0.134242), Vector3(0, -0.0940827, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Left:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.726022, -0.0533198, 0), Vector3(0.201292, -0.365161, 0.0272787), Vector3(0.201292, -0.365161, 0.0272787), Vector3(0.726022, -0.0533198, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gfmme"]
+_data = {
+"fist_activate": SubResource("Animation_f0ou5"),
+"fist_deactivate": SubResource("Animation_oxsbe"),
+"fist_punch_left": SubResource("Animation_mdrra"),
+"fist_punch_right": SubResource("Animation_btwt2")
+}
+
+[node name="Fists" type="Node3D"]
+script = ExtResource("1_rak57")
+
+[node name="Right" type="RigidBody3D" parent="."]
+transform = Transform3D(0.960866, 0.183909, 0.207156, 0, 0.747821, -0.6639, -0.277013, 0.637919, 0.718556, -0.0333229, -0.109128, 0)
+collision_mask = 4
+freeze = true
+
+[node name="RightFist" type="MeshInstance3D" parent="Right"]
+transform = Transform3D(-4.47035e-08, 1.49012e-08, 1, -2.98023e-08, 1, 0, -1, 0, -4.47035e-08, 0.5, 0, 7.45058e-09)
+mesh = SubResource("BoxMesh_v7x8s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Right"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.494094, 0.0218769, -0.368112)
+shape = SubResource("BoxShape3D_0hc45")
+
+[node name="Left" type="RigidBody3D" parent="."]
+transform = Transform3D(0.931771, -0.0968472, -0.34989, 0.0267246, 0.979444, -0.199935, 0.362061, 0.176943, 0.915206, 0.0672095, 0.0137606, -0.134242)
+collision_mask = 4
+freeze = true
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Left"]
+transform = Transform3D(-4.47035e-08, 0, 1, 0, 1, 0, -1, 2.98023e-08, -4.09782e-08, -0.5, 0, 0)
+mesh = SubResource("BoxMesh_v7x8s")
+skeleton = NodePath("../../Right")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Left"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.481609, 0.0218769, -0.368112)
+shape = SubResource("BoxShape3D_0hc45")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gfmme")
+}
+
+[node name="RightTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="LeftTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="RightTimer" to="." method="_on_right_timer_timeout"]
+[connection signal="timeout" from="LeftTimer" to="." method="_on_left_timer_timeout"]

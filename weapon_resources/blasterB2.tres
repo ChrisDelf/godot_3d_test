@@ -26,4 +26,5 @@ weapon_range = 200
 damage = 10
 projectile_to_load = ExtResource("1_7sdvp")
 projectile_velocity = 100
+is_melee = false
 weapon_drop = ExtResource("3_chldf")

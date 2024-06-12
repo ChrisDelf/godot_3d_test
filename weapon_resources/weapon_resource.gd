@@ -25,6 +25,7 @@ class_name weapon_resource
 @export var damage: int
 @export var projectile_to_load: PackedScene
 @export var projectile_velocity:int
+@export var is_melee: bool
 
 @export var weapon_drop: PackedScene
 

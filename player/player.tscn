@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=41 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://ccrllwcrpdten" path="res://weapons/rifle.tscn" id="2_5e6iy"]
@@ -7,9 +7,11 @@
 [ext_resource type="Resource" uid="uid://4v21t1v0v7nu" path="res://weapon_resources/blasterB2.tres" id="4_mwxfo"]
 [ext_resource type="PackedScene" uid="uid://stw3id86520b" path="res://blasterB.glb" id="4_xorag"]
 [ext_resource type="Script" path="res://player/Camera3D.gd" id="5_5ndx2"]
+[ext_resource type="Resource" uid="uid://b4u8xxak4g1u5" path="res://weapon_resources/fists.tres" id="5_hn86g"]
 [ext_resource type="PackedScene" uid="uid://3ullycelqk7b" path="res://Interface/user_interface.tscn" id="5_hpnna"]
 [ext_resource type="Script" path="res://player/IdlePlayerState.gd" id="5_j8ths"]
 [ext_resource type="Script" path="res://player/HUD.gd" id="5_p0uaf"]
+[ext_resource type="PackedScene" uid="uid://b7g63s7dulymw" path="res://weapons/fists.tscn" id="7_biqgm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -651,11 +653,12 @@ light_volumetric_fog_energy = 1.808
 
 [node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes"]
 script = ExtResource("2_7txp3")
-_weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo")])
-_start_weapons = Array[String](["blasterB2", "rifleS"])
+_weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo"), ExtResource("5_hn86g")])
+_start_weapons = Array[String](["blasterB2", "rifleS", "fists"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.978457, 0.000730483, 0.206435, -0.0741311, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
+transform = Transform3D(-0.978456, 0.000730483, 0.206435, -0.074131, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
+visible = false
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)
@@ -663,6 +666,11 @@ visible = false
 
 [node name="BulletMarker" type="Marker3D" parent="Neck/Head/Eyes/WeaponHolder"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.450994, -0.27678, -0.733493)
+visible = false
+
+[node name="Fists" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("7_biqgm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.388287, -0.439543)
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
@@ -743,8 +751,10 @@ script = ExtResource("5_j8ths")
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
 [connection signal="body_entered" from="Pick_Up_Detection" to="Neck/Head/Eyes/WeaponHolder" method="_on_pick_up_detection_body_entered"]
+[connection signal="melee_action" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/WeaponHolder/Fists" method="_on_weapon_holder_melee_action"]
 [connection signal="update_ammo" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_ammo"]
 [connection signal="update_weapon_stack" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_weapon_stack"]
 [connection signal="weapon_changed" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_weapon_changed"]
+[connection signal="fist_animation_finished" from="Neck/Head/Eyes/WeaponHolder/Fists" to="Neck/Head/Eyes/WeaponHolder" method="_on_fists_fist_animation_finished"]
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="Neck/Head/Eyes/WeaponHolder" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timers/SlideCooldown" to="." method="_on_slide_cooldown_timeout"]
