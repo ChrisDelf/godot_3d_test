@@ -53,6 +53,9 @@ func _physics_process(_delta):
 			swing()
 		else:
 			reload()
+	if Input.is_action_pressed("Melee"):
+		melee()
+		
 	
 func initialize(start_weapons: Array):
 	
@@ -109,46 +112,56 @@ func fire():
 			animation_player.play(current_weapon.hip_fire)
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 			
-			var camera_collision = get_camera_collision()
+			var camera_collision = get_camera_collision(current_weapon.melee_range)
 		
 			match current_weapon.Type:
 				NULL:
 					print("A Weapon has not been Choosen")
 				HITSCAN:
-					hit_scan_collision(camera_collision)
+					hit_scan_collision(camera_collision[1])
 				PROJECTILE:
-					launch_projectile(camera_collision)
+					launch_projectile(camera_collision[1])
 				
 func reload():
+	#checking to make sure you don't reload an already full gun
+	if current_weapon.current_ammo == current_weapon.magazine:
+		return
+	#make sure that no animtion are not playign
+	if !animation_player.is_playing():
+		if current_weapon.reserve_ammo != 0:
+			animation_player.play(current_weapon.reload_anim)
+		else:
+			current_weapon.can_fire= true
+
+func calculate_reload():
 	current_weapon.can_fire = false
 	#grabbing my globals for the current ammo to update the reload
 
-	
 	var reload_amount = current_weapon.magazine - current_weapon.current_ammo
 	#checking to see if we have enough ammo
-	
-	#normal reload
 	if current_weapon.reserve_ammo > reload_amount:
-		current_weapon.reserve_ammo -= reload_amount
-		current_weapon.current_ammo += reload_amount
-
+			current_weapon.reserve_ammo -= reload_amount
+			current_weapon.current_ammo += reload_amount
+			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			current_weapon.can_fire= true
+	else:	
+		current_weapon.current_ammo += current_weapon.reserve_ammo
+		current_weapon.reserve_ammo = 0
 		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 		animation_player.play(current_weapon.reload_anim)
 		current_weapon.can_fire= true
-	else:
-		# if we truly have no ammo left
-		if current_weapon.reserve_ammo == 0:
-			current_weapon.can_fire= true
-			return
-		else:
-			# we have less ammo than what a magazine could fill
-			current_weapon.current_ammo += current_weapon.reserve_ammo
-			current_weapon.reserve_ammo = 0
-			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-			animation_player.play(current_weapon.reload_anim)
-			current_weapon.can_fire= true
 
-func get_camera_collision()->Vector3:
+func melee():
+	#we do not want to interrupt our animation if it is already a melee animation
+	if animation_player.get_current_animation() != current_weapon.melee_anim:
+		animation_player.play(current_weapon.melee_anim)
+		var camera_collision = get_camera_collision(current_weapon.melee_range)
+		if camera_collision[0]:
+			var hit_direction = camera_collision[1]
+			print(hit_direction)
+			hit_scan_damage(hit_direction)
+	
+func get_camera_collision(_weapon_range)->Array:
 	var camera = get_viewport().get_camera_3d()
 	var viewport = get_viewport().get_size()
 	
@@ -164,11 +177,11 @@ func get_camera_collision()->Vector3:
 	if not intersection.is_empty():
 		#hitscan
 		var col_point = intersection.position
-		
-		return col_point
+		var collision = [intersection.collider, intersection.position]
+		return collision
 	else:
 		#projectile
-		return ray_end
+		return [null,ray_end]
 
 func hit_scan_collision(collision_point):
 	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
@@ -187,7 +200,6 @@ func hit_scan_collision(collision_point):
 
 func hit_scan_damage(collider):
 	if collider.is_in_group("Targets") and collider.has_method("hit_successful"):
-		
 		collider.hit_successful(current_weapon.damage)
 
 func launch_projectile(point: Vector3):
@@ -213,7 +225,9 @@ func _on_animation_player_animation_finished(anim_name):
 		
 	if anim_name == "blasterB2_shoot":
 		current_weapon.can_fire = true
-	
+		
+	if anim_name == current_weapon.reload_anim:
+		calculate_reload()
 
 
 func _on_pick_up_detection_body_entered(body):

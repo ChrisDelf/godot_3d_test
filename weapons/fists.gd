@@ -2,6 +2,8 @@ extends Node3D
 var can_punch_right = true
 var can_punch_left = false
 
+@onready var right_collision = $Right/CollisionShape3D
+@onready var left_collision = $Left/CollisionShape3D2
 @onready var fist_animation_player = $AnimationPlayer
 signal fist_animation_finished
 
@@ -15,7 +17,6 @@ func _process(_delta):
 	pass
 
 func _on_right_timer_timeout():
-	print("false")
 	can_punch_left = true
 
 
@@ -26,11 +27,14 @@ func _on_left_timer_timeout():
 func _on_weapon_holder_melee_action(action: String):
 	if action == "activate":
 		fist_animation_player.queue("fist_activate")
-		
+		right_collision.disabled = false
+		left_collision.disabled = false
 	
 	if action == "exit":
 		if fist_animation_player.get_current_animation() != "fist_deactivate":
 			fist_animation_player.play("fist_deactivate")
+			right_collision.disabled = true
+			left_collision.disabled = true
 			return true
 			
 	if action == "attack":
