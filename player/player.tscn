@@ -136,6 +136,58 @@ tracks/3/keys = {
 "values": [Vector3(0.450994, -0.27678, -0.733493)]
 }
 
+[sub_resource type="Animation" id="Animation_wa0og"]
+resource_name = "blasterB2_bash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/blasterB2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.287299, -0.319994, -0.685605), Vector3(0.287299, -0.319994, -0.931612), Vector3(0.287299, -0.319994, -0.794874), Vector3(0.287299, -0.319994, -0.685605)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/blasterB2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.0606046, 3.00777, 0.0135485), Vector3(-0.596247, 2.97994, 0.0967143), Vector3(-0.835833, 2.94166, 0.154611), Vector3(-0.0606046, 3.00777, 0.0135485)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/blasterB2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/BulletMarker:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.450994, -0.27678, -0.733493)]
+}
+
 [sub_resource type="Animation" id="Animation_1lywx"]
 resource_name = "blasterB2_deactivate"
 length = 0.5
@@ -432,6 +484,58 @@ tracks/3/keys = {
 resource_name = "rifleS_aim_down_sights"
 length = 0.5
 
+[sub_resource type="Animation" id="Animation_rth8i"]
+resource_name = "rifleS_bash"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.394312, -0.369993, -1.2514)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/rifleS:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.392272, -0.36928, -1.24942), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(0.392272, -0.36928, -1.24942)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/rifleS:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0.672258, -0.880428, -0.646043), Vector3(0.672258, -0.880428, -0.646043), Vector3(0, -1.5708, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/rifleS:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_dm2ny"]
 resource_name = "rifleS_deactivate"
 length = 0.7
@@ -585,110 +689,6 @@ resource_name = "rilfe_aim_down_sight_fire"
 resource_name = "runing_with_rifle_start"
 length = 0.4
 
-[sub_resource type="Animation" id="Animation_wa0og"]
-resource_name = "blasterB2_bash"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/blasterB2:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.287299, -0.319994, -0.685605), Vector3(0.287299, -0.319994, -0.931612), Vector3(0.287299, -0.319994, -0.794874), Vector3(0.287299, -0.319994, -0.685605)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/blasterB2:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(-0.0606046, 3.00777, 0.0135485), Vector3(-0.596247, 2.97994, 0.0967143), Vector3(-0.835833, 2.94166, 0.154611), Vector3(-0.0606046, 3.00777, 0.0135485)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/blasterB2:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WeaponHolder/BulletMarker:position")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.450994, -0.27678, -0.733493)]
-}
-
-[sub_resource type="Animation" id="Animation_rth8i"]
-resource_name = "rifleS_bash"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0.394312, -0.369993, -1.2514)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("WeaponHolder/rifleS:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0.392272, -0.36928, -1.24942), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(0.392272, -0.36928, -1.24942)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("WeaponHolder/rifleS:rotation")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0), Vector3(0.672258, -0.880428, -0.646043), Vector3(0.672258, -0.880428, -0.646043), Vector3(0, -1.5708, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("WeaponHolder/rifleS:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_j6bnf"]
 _data = {
 "Jump": SubResource("Animation_0erex"),
@@ -763,7 +763,7 @@ _weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]
 _start_weapons = Array[String](["blasterB2", "rifleS", "fists"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.991074, 0.00534655, 0.133178, 0.0135232, 0.99807, 0.0605673, -0.132598, 0.0618279, -0.989236, 0.287299, -0.319994, -0.685605)
+transform = Transform3D(-0.991074, 0.00534656, 0.133179, 0.0135232, 0.99807, 0.0605672, -0.132598, 0.0618279, -0.989236, 0.287299, -0.319994, -0.685605)
 visible = false
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]

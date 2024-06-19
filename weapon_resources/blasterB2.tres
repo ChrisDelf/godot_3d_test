@@ -28,5 +28,6 @@ damage = 2
 projectile_to_load = ExtResource("1_7sdvp")
 projectile_velocity = 100
 melee_damage = 1
+melee_range = 1.5
 is_melee = false
 weapon_drop = ExtResource("3_chldf")

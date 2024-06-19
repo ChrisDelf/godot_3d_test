@@ -94,7 +94,6 @@ func exit(_next_weapon: String):
 		elif current_weapon.is_melee:
 			var animation_return = emit_signal("melee_action", "exit")
 			if animation_return == 0:
-				print(next_weapon, "/", _next_weapon)
 				next_weapon = _next_weapon
 			
 	
@@ -112,7 +111,7 @@ func fire():
 			animation_player.play(current_weapon.hip_fire)
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 			
-			var camera_collision = get_camera_collision(current_weapon.melee_range)
+			var camera_collision = get_camera_collision(current_weapon.weapon_range)
 		
 			match current_weapon.Type:
 				NULL:
@@ -158,16 +157,15 @@ func melee():
 		var camera_collision = get_camera_collision(current_weapon.melee_range)
 		if camera_collision[0]:
 			var hit_direction = camera_collision[1]
-			print(hit_direction)
-			hit_scan_damage(hit_direction)
+			hit_scan_damage(camera_collision[0],null)
 	
 func get_camera_collision(_weapon_range)->Array:
 	var camera = get_viewport().get_camera_3d()
 	var viewport = get_viewport().get_size()
-	
+
 	#getting the center of the screen
 	var ray_origin = camera.project_ray_origin(viewport/2)
-	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*current_weapon.weapon_range
+	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*_weapon_range
 
 	
 	#now we create ray from the gun to the center of the screen
@@ -196,11 +194,11 @@ func hit_scan_collision(collision_point):
 		world.add_child(hit_indicator)
 		hit_indicator.global_translate(bullet_collision.position)
 		
-		hit_scan_damage(bullet_collision.collider)
+		hit_scan_damage(bullet_collision.collider, bullet_direction)
 
-func hit_scan_damage(collider):
+func hit_scan_damage(collider, vector):
 	if collider.is_in_group("Targets") and collider.has_method("hit_successful"):
-		collider.hit_successful(current_weapon.damage)
+		collider.hit_successful(current_weapon.damage, "hitscan",vector)
 
 func launch_projectile(point: Vector3):
 	
@@ -231,7 +229,6 @@ func _on_animation_player_animation_finished(anim_name):
 
 
 func _on_pick_up_detection_body_entered(body):
-	print(body.pick_up_type)
 	if body.is_pickup:
 		#Checking to see if we already have the weapon in our inventory.
 		var weapon_in_stack = weapon_stack.find(body.weapon_name, 0)
@@ -252,9 +249,8 @@ func _on_pick_up_detection_body_entered(body):
 				body.queue_free()
 		
 			body.current_ammo = min(remaining, weapon_list[body.weapon_name].magazine)
-			print(max(remaining - body.current_ammo, 0))
 			body.reserve_ammo = max(remaining - body.current_ammo, 0)
-			print(body.reserve_ammo)
+			
 			
 		
 func drop(w_name: String):
@@ -294,7 +290,6 @@ func add_ammo(_weapon: String, ammo:int) -> int:
 
 	weapon.reserve_ammo += min(ammo, required)
 	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-	print(remaining)
 	return remaining
 
 func swing():
