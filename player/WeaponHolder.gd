@@ -100,6 +100,7 @@ func exit(_next_weapon: String):
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	next_weapon = ""
+	emit_signal("melee_action", "weapon_shoot")
 	enter()
 
 func fire():
@@ -156,8 +157,9 @@ func melee():
 		animation_player.play(current_weapon.melee_anim)
 		var camera_collision = get_camera_collision(current_weapon.melee_range)
 		if camera_collision[0]:
+			var vector = (camera_collision[1] - bullet_point.get_global_transform().origin).normalized()
 			var hit_direction = camera_collision[1]
-			hit_scan_damage(camera_collision[0],null)
+			hit_scan_damage(camera_collision[0],vector)
 	
 func get_camera_collision(_weapon_range)->Array:
 	var camera = get_viewport().get_camera_3d()
@@ -204,7 +206,6 @@ func launch_projectile(point: Vector3):
 	
 	var direction = (point - bullet_point.get_global_transform().origin).normalized()
 	var projectile = current_weapon.projectile_to_load.instantiate()
-	
 	bullet_point.add_child(projectile)
 	projectile.damage = current_weapon.damage
 	projectile.set_linear_velocity(direction*current_weapon.projectile_velocity)
@@ -245,12 +246,12 @@ func _on_pick_up_detection_body_entered(body):
 		else:
 			var remaining = add_ammo(body.weapon_name, body.current_ammo + body.reserve_ammo)
 			if remaining == 0:
-				print("delete weapon on ground")
 				body.queue_free()
 		
 			body.current_ammo = min(remaining, weapon_list[body.weapon_name].magazine)
 			body.reserve_ammo = max(remaining - body.current_ammo, 0)
-			
+	
+		
 			
 		
 func drop(w_name: String):

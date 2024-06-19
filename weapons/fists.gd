@@ -48,6 +48,10 @@ func _on_weapon_holder_melee_action(action: String):
 			fist_animation_player.play("fist_punch_left")
 			$LeftTimer.start()
 			
+	if action == "weapon_shoot":
+		right_collision.disabled = true
+		left_collision.disabled = true
+			
 		
 
 
