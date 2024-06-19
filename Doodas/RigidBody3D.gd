@@ -5,11 +5,13 @@ var health = 5
 func hit_successful(damage,hit_type,vector):
 
 	if hit_type == "hitscan":
-		var force = Vector3(vector)*150
-		print(vector)
+		var force = Vector3(vector)*200
 		health -= damage
 		apply_impulse(force)
-	else:
+	if hit_type == "melee":
+		health -= damage
+		apply_impulse(vector)
+	if hit_type == "projectile":
 		health -= damage
 	if health <= 0:
 		queue_free()
