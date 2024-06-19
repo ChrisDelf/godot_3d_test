@@ -251,3 +251,7 @@ func _on_weapon_holder_weapon_swap(param1):
 
 func _on_weapon_holder_update_weapon_stack():
 	pass # Replace with function body.
+
+
+func _on_fists_fist_animation_finished():
+	pass # Replace with function body.

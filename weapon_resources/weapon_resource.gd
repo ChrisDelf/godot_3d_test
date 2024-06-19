@@ -10,6 +10,7 @@ class_name weapon_resource
 @export var out_of_ammo_anim: String
 @export var run_animation: String
 @export var walk_animation: String
+@export var melee_anim: String
 
 
 @export var current_ammo: int
@@ -25,6 +26,9 @@ class_name weapon_resource
 @export var damage: int
 @export var projectile_to_load: PackedScene
 @export var projectile_velocity:int
+@export var melee_damage: int
+@export var melee_range: float = 1.5
+@export var is_melee: bool
 
 @export var weapon_drop: PackedScene
 

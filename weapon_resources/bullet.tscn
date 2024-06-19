@@ -1,10 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://te5sn0fw0ec1"]
 
 [ext_resource type="Script" path="res://weapon_resources/bullet.gd" id="1_1g6py"]
-[ext_resource type="ArrayMesh" uid="uid://csmx7rci3ywnh" path="res://Game_Resources/Bullet_in_flight_with_shell_casing__0518051642_refine.obj" id="2_cbl17"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a3o5h"]
-albedo_color = Color(1, 0.792157, 0.690196, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymkke"]
+albedo_color = Color(0.105882, 1, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pqije"]
+material = SubResource("StandardMaterial3D_ymkke")
+radius = 0.1
+height = 0.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wynt0"]
 radius = 2.45098
@@ -15,16 +19,14 @@ transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.371
 top_level = true
 collision_layer = 4
 collision_mask = 6
-mass = 0.05
+mass = 10.0
 continuous_cd = true
-max_contacts_reported = 100
+max_contacts_reported = 300
 contact_monitor = true
 script = ExtResource("1_1g6py")
 
-[node name="test_bullet" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
-mesh = ExtResource("2_cbl17")
-surface_material_override/0 = SubResource("StandardMaterial3D_a3o5h")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_pqije")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)

@@ -135,6 +135,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.75443, 0.914954, -8.51772)
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.996679, 0, -0.0814341, 0.0476781, 0.810686, 0.583537, 0.0660174, -0.585481, 0.807993, 0, 7.97226, 8.01855)
+visible = false
 script = ExtResource("5_i83gv")
 
 [node name="Ammo" type="Node3D" parent="."]

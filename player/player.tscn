@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=43 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://ccrllwcrpdten" path="res://weapons/rifle.tscn" id="2_5e6iy"]
@@ -7,9 +7,11 @@
 [ext_resource type="Resource" uid="uid://4v21t1v0v7nu" path="res://weapon_resources/blasterB2.tres" id="4_mwxfo"]
 [ext_resource type="PackedScene" uid="uid://stw3id86520b" path="res://blasterB.glb" id="4_xorag"]
 [ext_resource type="Script" path="res://player/Camera3D.gd" id="5_5ndx2"]
+[ext_resource type="Resource" uid="uid://b4u8xxak4g1u5" path="res://weapon_resources/fists.tres" id="5_hn86g"]
 [ext_resource type="PackedScene" uid="uid://3ullycelqk7b" path="res://Interface/user_interface.tscn" id="5_hpnna"]
 [ext_resource type="Script" path="res://player/IdlePlayerState.gd" id="5_j8ths"]
 [ext_resource type="Script" path="res://player/HUD.gd" id="5_p0uaf"]
+[ext_resource type="PackedScene" uid="uid://b7g63s7dulymw" path="res://weapons/fists.tscn" id="7_biqgm"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -129,6 +131,58 @@ tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.450994, -0.27678, -0.733493)]
+}
+
+[sub_resource type="Animation" id="Animation_wa0og"]
+resource_name = "blasterB2_bash"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/blasterB2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.287299, -0.319994, -0.685605), Vector3(0.287299, -0.319994, -0.931612), Vector3(0.287299, -0.319994, -0.794874), Vector3(0.287299, -0.319994, -0.685605)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/blasterB2:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(-0.0606046, 3.00777, 0.0135485), Vector3(-0.596247, 2.97994, 0.0967143), Vector3(-0.835833, 2.94166, 0.154611), Vector3(-0.0606046, 3.00777, 0.0135485)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/blasterB2:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/BulletMarker:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector3(0.450994, -0.27678, -0.733493)]
@@ -430,6 +484,58 @@ tracks/3/keys = {
 resource_name = "rifleS_aim_down_sights"
 length = 0.5
 
+[sub_resource type="Animation" id="Animation_rth8i"]
+resource_name = "rifleS_bash"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("WeaponHolder/BulletMarker:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.394312, -0.369993, -1.2514)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("WeaponHolder/rifleS:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0.392272, -0.36928, -1.24942), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(-0.118135, -0.0829359, -0.984573), Vector3(0.392272, -0.36928, -1.24942)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WeaponHolder/rifleS:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0), Vector3(0.672258, -0.880428, -0.646043), Vector3(0.672258, -0.880428, -0.646043), Vector3(0, -1.5708, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("WeaponHolder/rifleS:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_dm2ny"]
 resource_name = "rifleS_deactivate"
 length = 0.7
@@ -588,6 +694,7 @@ _data = {
 "Jump": SubResource("Animation_0erex"),
 "RESET": SubResource("Animation_ee7ky"),
 "blasterB2_activate": SubResource("Animation_y0x37"),
+"blasterB2_bash": SubResource("Animation_wa0og"),
 "blasterB2_deactivate": SubResource("Animation_1lywx"),
 "blasterB2_reload": SubResource("Animation_ktt2s"),
 "blasterB2_shoot": SubResource("Animation_ebf3x"),
@@ -599,6 +706,7 @@ _data = {
 "revolver_walk": SubResource("Animation_xkqlg"),
 "rifleS_activate": SubResource("Animation_jotgw"),
 "rifleS_aim_down_sights": SubResource("Animation_5csx7"),
+"rifleS_bash": SubResource("Animation_rth8i"),
 "rifleS_deactivate": SubResource("Animation_dm2ny"),
 "rifleS_reload": SubResource("Animation_87el6"),
 "rifleS_shoot": SubResource("Animation_nxl1l"),
@@ -651,18 +759,22 @@ light_volumetric_fog_energy = 1.808
 
 [node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes"]
 script = ExtResource("2_7txp3")
-_weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo")])
-_start_weapons = Array[String](["blasterB2", "rifleS"])
+_weapon_resources = Array[Resource("res://weapon_resources/weapon_resource.gd")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo"), ExtResource("5_hn86g")])
+_start_weapons = Array[String](["blasterB2", "rifleS", "fists"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.978457, 0.000730483, 0.206435, -0.0741311, 0.932048, -0.354663, -0.192667, -0.362327, -0.911917, 0.287299, -0.769187, -0.651767)
+transform = Transform3D(-0.991074, 0.00534656, 0.133179, 0.0135232, 0.99807, 0.0605672, -0.132598, 0.0618279, -0.989236, 0.287299, -0.319994, -0.685605)
+visible = false
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)
-visible = false
 
 [node name="BulletMarker" type="Marker3D" parent="Neck/Head/Eyes/WeaponHolder"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.450994, -0.27678, -0.733493)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.394312, -0.369993, -1.2514)
+
+[node name="Fists" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("7_biqgm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.130781, -0.435687)
+visible = false
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
@@ -743,8 +855,10 @@ script = ExtResource("5_j8ths")
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
 [connection signal="body_entered" from="Pick_Up_Detection" to="Neck/Head/Eyes/WeaponHolder" method="_on_pick_up_detection_body_entered"]
+[connection signal="melee_action" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/WeaponHolder/Fists" method="_on_weapon_holder_melee_action"]
 [connection signal="update_ammo" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_ammo"]
 [connection signal="update_weapon_stack" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_weapon_stack"]
 [connection signal="weapon_changed" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_weapon_changed"]
+[connection signal="fist_animation_finished" from="Neck/Head/Eyes/WeaponHolder/Fists" to="Neck/Head/Eyes/WeaponHolder" method="_on_fists_fist_animation_finished"]
 [connection signal="animation_finished" from="Neck/Head/Eyes/AnimationPlayer" to="Neck/Head/Eyes/WeaponHolder" method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Timers/SlideCooldown" to="." method="_on_slide_cooldown_timeout"]

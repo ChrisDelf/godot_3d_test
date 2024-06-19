@@ -20,6 +20,7 @@ enum {NULL,HITSCAN, PROJECTILE}
 signal weapon_changed
 signal update_ammo
 signal update_weapon_stack
+signal melee_action
 
 func _ready():
 	initialize(_start_weapons) #enter and new state machine
@@ -48,8 +49,13 @@ func _physics_process(_delta):
 		
 		if current_weapon.current_ammo > 0:
 			fire()
+		elif current_weapon.is_melee == true:
+			swing()
 		else:
 			reload()
+	if Input.is_action_pressed("Melee"):
+		melee()
+		
 	
 func initialize(start_weapons: Array):
 	
@@ -69,15 +75,27 @@ func initialize(start_weapons: Array):
 	
 func enter():
 	
-	animation_player.queue(current_weapon.activate_anim)
+	if !current_weapon.is_melee:
+		animation_player.queue(current_weapon.activate_anim)
+		
+		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+	else:
+		emit_signal("melee_action", "activate")
+		
 	emit_signal("weapon_changed", current_weapon.weapon_name)
-	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 
 func exit(_next_weapon: String):
-	if _next_weapon != current_weapon.weapon_name:
-		if animation_player.get_current_animation() != current_weapon.deactivate_anim:
+	if _next_weapon != current_weapon.weapon_name :
+		if animation_player.get_current_animation() != current_weapon.deactivate_anim && !current_weapon.is_melee:
+			
 			animation_player.play(current_weapon.deactivate_anim)
 			next_weapon = _next_weapon
+			
+		elif current_weapon.is_melee:
+			var animation_return = emit_signal("melee_action", "exit")
+			if animation_return == 0:
+				next_weapon = _next_weapon
+			
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
@@ -93,52 +111,61 @@ func fire():
 			animation_player.play(current_weapon.hip_fire)
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 			
-			var camera_collision = get_camera_collision()
+			var camera_collision = get_camera_collision(current_weapon.weapon_range)
 		
 			match current_weapon.Type:
 				NULL:
 					print("A Weapon has not been Choosen")
 				HITSCAN:
-					hit_scan_collision(camera_collision)
+					hit_scan_collision(camera_collision[1])
 				PROJECTILE:
-					launch_projectile(camera_collision)
+					launch_projectile(camera_collision[1])
 				
 func reload():
+	#checking to make sure you don't reload an already full gun
+	if current_weapon.current_ammo == current_weapon.magazine:
+		return
+	#make sure that no animtion are not playign
+	if !animation_player.is_playing():
+		if current_weapon.reserve_ammo != 0:
+			animation_player.play(current_weapon.reload_anim)
+		else:
+			current_weapon.can_fire= true
+
+func calculate_reload():
 	current_weapon.can_fire = false
 	#grabbing my globals for the current ammo to update the reload
 
-	
 	var reload_amount = current_weapon.magazine - current_weapon.current_ammo
 	#checking to see if we have enough ammo
-	
-	#normal reload
 	if current_weapon.reserve_ammo > reload_amount:
-		current_weapon.reserve_ammo -= reload_amount
-		current_weapon.current_ammo += reload_amount
-
+			current_weapon.reserve_ammo -= reload_amount
+			current_weapon.current_ammo += reload_amount
+			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
+			current_weapon.can_fire= true
+	else:	
+		current_weapon.current_ammo += current_weapon.reserve_ammo
+		current_weapon.reserve_ammo = 0
 		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 		animation_player.play(current_weapon.reload_anim)
 		current_weapon.can_fire= true
-	else:
-		# if we truly have no ammo left
-		if current_weapon.reserve_ammo == 0:
-			current_weapon.can_fire= true
-			return
-		else:
-			# we have less ammo than what a magazine could fill
-			current_weapon.current_ammo += current_weapon.reserve_ammo
-			current_weapon.reserve_ammo = 0
-			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-			animation_player.play(current_weapon.reload_anim)
-			current_weapon.can_fire= true
 
-func get_camera_collision()->Vector3:
+func melee():
+	#we do not want to interrupt our animation if it is already a melee animation
+	if animation_player.get_current_animation() != current_weapon.melee_anim:
+		animation_player.play(current_weapon.melee_anim)
+		var camera_collision = get_camera_collision(current_weapon.melee_range)
+		if camera_collision[0]:
+			var hit_direction = camera_collision[1]
+			hit_scan_damage(camera_collision[0],null)
+	
+func get_camera_collision(_weapon_range)->Array:
 	var camera = get_viewport().get_camera_3d()
 	var viewport = get_viewport().get_size()
-	
+
 	#getting the center of the screen
 	var ray_origin = camera.project_ray_origin(viewport/2)
-	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*current_weapon.weapon_range
+	var ray_end = ray_origin + camera.project_ray_normal(viewport/2)*_weapon_range
 
 	
 	#now we create ray from the gun to the center of the screen
@@ -148,11 +175,11 @@ func get_camera_collision()->Vector3:
 	if not intersection.is_empty():
 		#hitscan
 		var col_point = intersection.position
-		
-		return col_point
+		var collision = [intersection.collider, intersection.position]
+		return collision
 	else:
 		#projectile
-		return ray_end
+		return [null,ray_end]
 
 func hit_scan_collision(collision_point):
 	var bullet_direction = (collision_point - bullet_point.get_global_transform().origin).normalized()
@@ -167,12 +194,11 @@ func hit_scan_collision(collision_point):
 		world.add_child(hit_indicator)
 		hit_indicator.global_translate(bullet_collision.position)
 		
-		hit_scan_damage(bullet_collision.collider)
+		hit_scan_damage(bullet_collision.collider, bullet_direction)
 
-func hit_scan_damage(collider):
+func hit_scan_damage(collider, vector):
 	if collider.is_in_group("Targets") and collider.has_method("hit_successful"):
-		
-		collider.hit_successful(current_weapon.damage)
+		collider.hit_successful(current_weapon.damage, "hitscan",vector)
 
 func launch_projectile(point: Vector3):
 	
@@ -197,11 +223,12 @@ func _on_animation_player_animation_finished(anim_name):
 		
 	if anim_name == "blasterB2_shoot":
 		current_weapon.can_fire = true
-	
+		
+	if anim_name == current_weapon.reload_anim:
+		calculate_reload()
 
 
 func _on_pick_up_detection_body_entered(body):
-	print(body.pick_up_type)
 	if body.is_pickup:
 		#Checking to see if we already have the weapon in our inventory.
 		var weapon_in_stack = weapon_stack.find(body.weapon_name, 0)
@@ -222,9 +249,8 @@ func _on_pick_up_detection_body_entered(body):
 				body.queue_free()
 		
 			body.current_ammo = min(remaining, weapon_list[body.weapon_name].magazine)
-			print(max(remaining - body.current_ammo, 0))
 			body.reserve_ammo = max(remaining - body.current_ammo, 0)
-			print(body.reserve_ammo)
+			
 			
 		
 func drop(w_name: String):
@@ -264,7 +290,13 @@ func add_ammo(_weapon: String, ammo:int) -> int:
 
 	weapon.reserve_ammo += min(ammo, required)
 	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-	print(remaining)
 	return remaining
-		
+
+func swing():
+	emit_signal("melee_action", "attack")
 	
+
+
+func _on_fists_fist_animation_finished(anim_name):
+	if anim_name == current_weapon.deactivate_anim:
+		change_weapon(next_weapon)
