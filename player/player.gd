@@ -57,6 +57,8 @@ var current_weapon: Node = null
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
 
+#signals
+signal palyer_hit
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -239,7 +241,8 @@ func _physics_process(delta):
 	
 
 	
-	
+func hit():
+	emit_signal("player_hit")
 
 func _on_slide_cooldown_timeout():
 	can_slide = true
