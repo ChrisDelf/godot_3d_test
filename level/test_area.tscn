@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=3 uid="uid://08m53alostbe"]
+[gd_scene load_steps=18 format=3 uid="uid://08m53alostbe"]
 
 [ext_resource type="PackedScene" uid="uid://bifrn6tihunkl" path="res://level/floor.tscn" id="1_bfjyb"]
+[ext_resource type="Script" path="res://level/test_area.gd" id="1_kvbmt"]
 [ext_resource type="PackedScene" uid="uid://bgcib1r1vdaj4" path="res://player/player.tscn" id="2_0kklf"]
 [ext_resource type="MeshLibrary" uid="uid://bnwuyllixn5no" path="res://tileset.tres" id="3_nx3lr"]
 [ext_resource type="PackedScene" uid="uid://bo86a2m76eaha" path="res://Enemy/zombie.tscn" id="4_emass"]
@@ -31,6 +32,20 @@ points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5
 points = PackedVector3Array(-0.5, -0.5, -0.5, 0.0146517, 0.470697, 0.470697, 0.0735213, 0.352957, 0.47061, -0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.0146517, 0.470697, -0.470697, 0.5, -0.5, 0.5, -0.0146517, 0.470697, 0.470697, 0.0146517, 0.470697, -0.470697)
 
 [node name="Test_area" type="Node3D"]
+script = ExtResource("1_kvbmt")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 741.0
+color = Color(1, 0.054902, 0.0470588, 0.513726)
 
 [node name="Player" parent="." instance=ExtResource("2_0kklf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
@@ -133,7 +148,6 @@ shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="Zombie" parent="Map/NavigationRegion3D" instance=ExtResource("4_emass")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.23691)
-player_path = NodePath("../../../Player")
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)
@@ -163,3 +177,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.51604, -9.20818)
 
 [node name="BlasterB2_mag" parent="Ammo" instance=ExtResource("8_kq3bt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.12379, -0.447959, 2.45088)
+
+[node name="Spawns" type="Node3D" parent="."]
+
+[node name="Spawn" type="Node3D" parent="Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.8395, 0, -23.9007)
+
+[node name="Spawn2" type="Node3D" parent="Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.4851, 0, -23.9007)
+
+[node name="Spawn3" type="Node3D" parent="Spawns"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.865, 0, 13.974)
+
+[node name="ZombieSpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
+
+[connection signal="player_hit" from="Player" to="." method="_on_player_player_hit"]
+[connection signal="timeout" from="ZombieSpawnTimer" to="." method="_on_zombie_spawn_timer_timeout"]

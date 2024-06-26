@@ -3,13 +3,13 @@ extends CharacterBody3D
 const SPEED = 3.0
 const ATTACK_RANGE = 2.5
 var player = null
-
+var health = 20
 #creating state machine for animations
 var state_machine
 
 
 
-@export var player_path: NodePath
+@export var player_path: = "/root/Test_area/Player"
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var anim_tree = $AnimationTree
@@ -21,7 +21,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
 	velocity = Vector3.ZERO
 	
 	match state_machine.get_current_node():
@@ -31,9 +31,9 @@ func _process(_delta):
 			var next_nav_point = nav_agent.get_next_path_position()
 			#getting the direction of player
 			velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
+			#smoothing out the turning
+			rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
 			#we want to look at the direction that we are moving
-			look_at(Vector3(player.global_position.x + velocity.x, global_position.y, 
-			player.global_position.z + velocity.z), Vector3.UP)
 		"attack":
 			#looking directly at the player
 			look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
@@ -49,4 +49,25 @@ func _target_in_range():
 	return global_position.distance_to(player.global_position) <= ATTACK_RANGE
 	
 func hit_finished():
-	print("bonk!")
+	#want to see if the player is still in range
+	if global_position.distance_to(player.global_position) <= ATTACK_RANGE + 1.0:
+		# want to get the direction of the hit to create stagger
+		var dir = global_position.direction_to(player.global_position)
+		player.hit(dir)
+		
+
+
+func hit_successful(damage,hit_type,vector):
+
+	if hit_type == "hitscan":
+		var force = Vector3(vector)*200
+		health -= damage
+	if hit_type == "melee":
+		health -= damage
+	if hit_type == "projectile":
+		health -= damage
+	if health <= 0:
+		queue_free()
+		
+
+	

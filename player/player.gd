@@ -9,6 +9,7 @@ const sprint_speed: float = 8
 const crouch_speed: float = 3
 const lerp_speed: float = 10
 const air_lerp_speed: float = 3.5
+const hit_stagger: float = 15
 var direction: = Vector3.ZERO
 var crouching_depth: float = -0.5
 var mouse_sen: float = .08
@@ -45,6 +46,9 @@ var head_bobbing_index = 0.0
 #weapon related variables
 var current_weapon: Node = null
 
+#signals
+signal player_hit
+
 
 @onready var standing_collision_shape = $StandingCollisionShape
 @onready var crouching_collision_shape = $CrouchingCollisionShape
@@ -57,8 +61,6 @@ var current_weapon: Node = null
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
 
-#signals
-signal palyer_hit
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -241,8 +243,9 @@ func _physics_process(delta):
 	
 
 	
-func hit():
+func hit(dir):
 	emit_signal("player_hit")
+	velocity += dir * hit_stagger
 
 func _on_slide_cooldown_timeout():
 	can_slide = true
