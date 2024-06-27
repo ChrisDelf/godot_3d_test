@@ -1,6 +1,6 @@
 extends RigidBody3D
 
-var health = 5
+var health = 20
 
 func hit_successful(damage,hit_type,vector):
 

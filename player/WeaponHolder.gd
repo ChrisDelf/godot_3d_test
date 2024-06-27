@@ -148,7 +148,7 @@ func calculate_reload():
 		current_weapon.current_ammo += current_weapon.reserve_ammo
 		current_weapon.reserve_ammo = 0
 		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-		animation_player.play(current_weapon.reload_anim)
+		#animation_player.play(current_weapon.reload_anim)
 		current_weapon.can_fire= true
 
 func melee():
