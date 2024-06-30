@@ -8,19 +8,17 @@ var weapon_stack = [] # the array of weapons that I have
 #var weapon_indicator = 0
 var weapon_list: = {}
 var next_weapon: String
-
-
-
 enum {NULL,HITSCAN, PROJECTILE}
 
 @export var _weapon_resources: Array[weapon_resource]
-
 @export var _start_weapons: Array[String]
 
 signal weapon_changed
 signal update_ammo
 signal update_weapon_stack
-signal melee_action
+signal weapon_swing
+
+
 
 func _ready():
 	initialize(_start_weapons) #enter and new state machine
@@ -47,16 +45,22 @@ func _physics_process(_delta):
 
 	if Input.is_action_pressed("primary action"):
 		
-		if current_weapon.current_ammo > 0:
+		if current_weapon.current_ammo > 0 && !current_weapon.is_melee:
 			fire()
-		elif current_weapon.is_melee == true:
-			swing()
+		elif current_weapon.is_melee:
+			attack()
 		else:
 			reload()
 	if Input.is_action_pressed("Melee"):
 		melee()
 		
+func attack():
 	
+	if !animation_player.is_playing():
+		animation_player.play(current_weapon.hip_fire)
+		emit_signal("weapon_swing")
+		
+		
 func initialize(start_weapons: Array):
 	
 	#creates our dictionary for later use
@@ -75,32 +79,23 @@ func initialize(start_weapons: Array):
 	
 func enter():
 	
-	if !current_weapon.is_melee:
-		animation_player.queue(current_weapon.activate_anim)
-		
-		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-	else:
-		emit_signal("melee_action", "activate")
-		
+	
+	animation_player.queue(current_weapon.activate_anim)
+	
+	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])	
 	emit_signal("weapon_changed", current_weapon.weapon_name)
 
 func exit(_next_weapon: String):
 	if _next_weapon != current_weapon.weapon_name :
-		if animation_player.get_current_animation() != current_weapon.deactivate_anim && !current_weapon.is_melee:
+		if animation_player.get_current_animation() != current_weapon.deactivate_anim:
 			
 			animation_player.play(current_weapon.deactivate_anim)
 			next_weapon = _next_weapon
-			
-		elif current_weapon.is_melee:
-			var animation_return = emit_signal("melee_action", "exit")
-			if animation_return == 0:
-				next_weapon = _next_weapon
 			
 	
 func change_weapon(weapon_name: String):
 	current_weapon = weapon_list[weapon_name]
 	next_weapon = ""
-	emit_signal("melee_action", "weapon_shoot")
 	enter()
 
 func fire():
@@ -148,7 +143,6 @@ func calculate_reload():
 		current_weapon.current_ammo += current_weapon.reserve_ammo
 		current_weapon.reserve_ammo = 0
 		emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
-		#animation_player.play(current_weapon.reload_anim)
 		current_weapon.can_fire= true
 
 func melee():
@@ -158,7 +152,6 @@ func melee():
 		var camera_collision = get_camera_collision(current_weapon.melee_range)
 		if camera_collision[0]:
 			var vector = (camera_collision[1] - bullet_point.get_global_transform().origin).normalized()
-			var hit_direction = camera_collision[1]
 			hit_scan_damage(camera_collision[0],vector)
 	
 func get_camera_collision(_weapon_range)->Array:
@@ -176,7 +169,7 @@ func get_camera_collision(_weapon_range)->Array:
 
 	if not intersection.is_empty():
 		#hitscan
-		var col_point = intersection.position
+		#var col_point = intersection.position
 		var collision = [intersection.collider, intersection.position]
 		return collision
 	else:
@@ -293,11 +286,8 @@ func add_ammo(_weapon: String, ammo:int) -> int:
 	emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 	return remaining
 
-func swing():
-	emit_signal("melee_action", "attack")
+
 	
 
 
-func _on_fists_fist_animation_finished(anim_name):
-	if anim_name == current_weapon.deactivate_anim:
-		change_weapon(next_weapon)
+

@@ -60,11 +60,13 @@ signal player_hit
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
-
+@onready var _stick = $Neck/Head/Eyes/WeaponHolder/stick
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	animation_player.play("landing")
+	_stick.visible = false
+	
 	
 
 

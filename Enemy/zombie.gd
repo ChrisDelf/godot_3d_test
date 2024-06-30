@@ -62,7 +62,7 @@ func hit_finished():
 func hit_successful(damage,hit_type,vector):
 
 	if hit_type == "hitscan":
-		var force = Vector3(vector)*200
+		#var force = Vector3(vector)*200
 		health -= damage
 	if hit_type == "melee":
 		health -= damage
