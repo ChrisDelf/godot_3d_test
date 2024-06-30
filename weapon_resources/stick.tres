@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="weapon_resource" load_steps=2 format=3 uid="uid://dp14xb61wq4rc"]
+
+[ext_resource type="Script" path="res://weapon_resources/weapon_resource.gd" id="1_dj3ay"]
+
+[resource]
+script = ExtResource("1_dj3ay")
+weapon_name = "stick"
+activate_anim = "stick_activate"
+hip_fire = "stick_attack"
+reload_anim = ""
+deactivate_anim = "stick_deactivate"
+out_of_ammo_anim = ""
+run_animation = ""
+walk_animation = ""
+melee_anim = ""
+current_ammo = 0
+reserve_ammo = 0
+magazine = 0
+max_ammo = 0
+is_droppable = false
+auto_fire = false
+can_fire = true
+Type = null
+weapon_range = 0
+damage = 0
+projectile_velocity = 0
+melee_damage = 0
+melee_range = 1.5
+is_melee = true

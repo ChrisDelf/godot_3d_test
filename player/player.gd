@@ -9,7 +9,7 @@ const sprint_speed: float = 8
 const crouch_speed: float = 3
 const lerp_speed: float = 10
 const air_lerp_speed: float = 3.5
-const hit_stagger: float = 15
+const hit_stagger: float = 8
 var direction: = Vector3.ZERO
 var crouching_depth: float = -0.5
 var mouse_sen: float = .08
@@ -60,11 +60,13 @@ signal player_hit
 @onready var ray_cast_3d = $RayCast3D
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
-
+@onready var _stick = $Neck/Head/Eyes/WeaponHolder/stick
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	animation_player.play("landing")
+	_stick.visible = false
+	
 	
 
 
@@ -201,7 +203,7 @@ func _physics_process(delta):
 		#eyes.rotation.z = -deg_to_rad(eyes.rotation.y * free_look_tilt_amount)
 		velocity.y = jump_force
 		sliding = false
-		animation_player.play("Jump")
+		animation_player.play("jump")
 	
 	#Handle landing
 	if is_on_floor():

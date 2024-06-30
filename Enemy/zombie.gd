@@ -6,6 +6,7 @@ var player = null
 var health = 20
 #creating state machine for animations
 var state_machine
+var is_dead = false
 
 
 
@@ -13,6 +14,7 @@ var state_machine
 
 @onready var nav_agent = $NavigationAgent3D
 @onready var anim_tree = $AnimationTree
+@onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,14 +40,14 @@ func _process(delta):
 			#looking directly at the player
 			look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
 			
-	
-	
-	#Conditions
-	anim_tree.set("parameters/conditions/attack", _target_in_range())
-	anim_tree.set("parameters/conditions/run", !_target_in_range())
-	move_and_slide()
+	if !is_dead:
+		#Conditions
+		anim_tree.set("parameters/conditions/attack", _target_in_range())
+		anim_tree.set("parameters/conditions/run", !_target_in_range())
+		move_and_slide()
 	
 func _target_in_range():
+	
 	return global_position.distance_to(player.global_position) <= ATTACK_RANGE
 	
 func hit_finished():
@@ -60,14 +62,20 @@ func hit_finished():
 func hit_successful(damage,hit_type,vector):
 
 	if hit_type == "hitscan":
-		var force = Vector3(vector)*200
+		#var force = Vector3(vector)*200
 		health -= damage
 	if hit_type == "melee":
 		health -= damage
 	if hit_type == "projectile":
 		health -= damage
 	if health <= 0:
-		queue_free()
+		anim_player.play("death")
+		is_dead = true
 		
 
 	
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "death":
+		queue_free()
