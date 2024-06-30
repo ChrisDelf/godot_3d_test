@@ -42,13 +42,16 @@ func _process(delta):
 			
 	if !is_dead:
 		#Conditions
-		anim_tree.set("parameters/conditions/attack", _target_in_range())
-		anim_tree.set("parameters/conditions/run", !_target_in_range())
+		anim_tree.set("parameters/conditions/is_attack", _target_in_range())
+		anim_tree.set("parameters/conditions/is_run", !_target_in_range())
 		move_and_slide()
+
 	
 func _target_in_range():
-	
-	return global_position.distance_to(player.global_position) <= ATTACK_RANGE
+	if global_position.distance_to(player.global_position) <= ATTACK_RANGE:
+		return true
+	else:
+		return false
 	
 func hit_finished():
 	#want to see if the player is still in range
@@ -56,6 +59,7 @@ func hit_finished():
 		# want to get the direction of the hit to create stagger
 		var dir = global_position.direction_to(player.global_position)
 		player.hit(dir)
+	
 		
 
 
@@ -79,3 +83,5 @@ func hit_successful(damage,hit_type,vector):
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
+		return
+	

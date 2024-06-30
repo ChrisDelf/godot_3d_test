@@ -10,7 +10,7 @@ func hit_successful(damage,hit_type,vector):
 	if hit_type == "melee":
 		health -= damage
 		if vector:
-			apply_impulse(vector)
+			apply_impulse(vector*100)
 	if hit_type == "projectile":
 		health -= damage
 	
