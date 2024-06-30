@@ -32,5 +32,4 @@ func get_collision_force():
 	force_direction = force_direction.normalized() #Normalize the direction vector
 	var force_magnitude = 10.0 #Adjust the magnitude of the force
 	var force = force_direction * force_direction
-	print(force)
 	return force
