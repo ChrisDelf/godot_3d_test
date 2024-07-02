@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bgcib1r1vdaj4"]
+[gd_scene load_steps=46 format=3 uid="uid://bgcib1r1vdaj4"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_1i2q3"]
 [ext_resource type="PackedScene" uid="uid://ccrllwcrpdten" path="res://weapons/rifle.tscn" id="2_5e6iy"]
@@ -12,7 +12,6 @@
 [ext_resource type="Resource" uid="uid://dp14xb61wq4rc" path="res://weapon_resources/stick.tres" id="5_orqo5"]
 [ext_resource type="Script" path="res://player/HUD.gd" id="5_p0uaf"]
 [ext_resource type="PackedScene" uid="uid://b22lr6ju474cf" path="res://weapons/stick.tscn" id="8_ffuiw"]
-[ext_resource type="Script" path="res://weapons/stick.gd" id="9_bj7o3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jbcfd"]
 albedo_color = Color(0.8, 0.129412, 0.0352941, 1)
@@ -935,7 +934,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.394312, -0.369993, -1.2514)
 
 [node name="stick" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("8_ffuiw")]
 transform = Transform3D(0.99986, 0.0133422, -0.0101049, 0, 0.603751, 0.797173, 0.0167369, -0.797062, 0.603665, 0.456607, -1.04484, -0.519459)
-script = ExtResource("9_bj7o3")
 
 [node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.138086, -0.458703)
@@ -991,6 +989,12 @@ layout_mode = 2
 
 [node name="CrossHair" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("5_hpnna")]
 
+[node name="HealthBar" type="ProgressBar" parent="Neck/Head/Eyes/Camera3D/CanvasLayer"]
+offset_left = 468.0
+offset_top = 614.0
+offset_right = 726.0
+offset_bottom = 641.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Neck/Head/Eyes"]
 libraries = {
 "": SubResource("AnimationLibrary_j6bnf")
@@ -1015,6 +1019,22 @@ script = ExtResource("5_j8ths")
 
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
+[node name="HitTaken" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 1159.0
+offset_bottom = 645.0
+
+[node name="ColorRect" type="ColorRect" parent="HitTaken"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 741.0
+color = Color(1, 0.054902, 0.0470588, 0.513726)
+
+[connection signal="player_hit" from="." to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_player_player_hit"]
 [connection signal="body_entered" from="Pick_Up_Detection" to="Neck/Head/Eyes/WeaponHolder" method="_on_pick_up_detection_body_entered"]
 [connection signal="update_ammo" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_ammo"]
 [connection signal="update_weapon_stack" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_weapon_stack"]

@@ -61,11 +61,17 @@ signal player_hit
 @onready var animation_player = $Neck/Head/Eyes/AnimationPlayer
 @onready var crosshair = $Neck/Head/Eyes/Camera3D/CanvasLayer/CrossHair
 @onready var _stick = $Neck/Head/Eyes/WeaponHolder/stick
+@onready var hit_ui = $HitTaken/ColorRect
+
 
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#hear to readjust the camera... there is a bug somewhere I don't know how to fix.. might be related to camera setup.
 	animation_player.play("landing")
+	#to hide our default weapon... some reason it needs to be here I must be a noob
 	_stick.visible = false
+
+	
 	
 	
 
@@ -246,7 +252,10 @@ func _physics_process(delta):
 
 	
 func hit(dir):
-	emit_signal("player_hit")
+	hit_ui.visible = true
+	emit_signal("player_hit", 5)
+	await get_tree().create_timer(0.2).timeout
+	hit_ui.visible = false
 	velocity += dir * hit_stagger
 
 func _on_slide_cooldown_timeout():

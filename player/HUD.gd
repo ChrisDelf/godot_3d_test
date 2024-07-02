@@ -4,9 +4,11 @@ extends CanvasLayer
 @onready var current_ammo = $VBoxContainer/AmmoContainer/CurrentAmmo
 @onready var current_weapon_stack = $VBoxContainer/WeaponStackContainer/WeaponStack
 @onready var current_player_stance =$VBoxContainer/StanceContainer/PlayerStance
+@onready var health_bar = $HealthBar
 
-
-
+func _ready():
+	health_bar.value = Globals.player_health
+	
 func _physics_process(_delta):
 	current_player_stance.text = Globals.player_state
 
@@ -26,3 +28,9 @@ func _on_weapon_holder_update_weapon_stack(weapon_stack):
 func _on_weapon_holder_weapon_changed(weapon_name):
 	if current_weapon_stack != null:
 		current_weapon_label.set_text(weapon_name)
+
+
+func _on_player_player_hit(damage):
+	health_bar.value -= damage
+	Globals.player_health = health_bar.value
+	
