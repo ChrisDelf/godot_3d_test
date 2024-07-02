@@ -989,6 +989,12 @@ layout_mode = 2
 
 [node name="CrossHair" parent="Neck/Head/Eyes/Camera3D/CanvasLayer" instance=ExtResource("5_hpnna")]
 
+[node name="HealthBar" type="ProgressBar" parent="Neck/Head/Eyes/Camera3D/CanvasLayer"]
+offset_left = 468.0
+offset_top = 614.0
+offset_right = 726.0
+offset_bottom = 641.0
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Neck/Head/Eyes"]
 libraries = {
 "": SubResource("AnimationLibrary_j6bnf")
@@ -1013,6 +1019,22 @@ script = ExtResource("5_j8ths")
 
 [node name="WalkingPlayerState" type="Node" parent="PlayerStateMachine"]
 
+[node name="HitTaken" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = 1159.0
+offset_bottom = 645.0
+
+[node name="ColorRect" type="ColorRect" parent="HitTaken"]
+visible = false
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 741.0
+color = Color(1, 0.054902, 0.0470588, 0.513726)
+
+[connection signal="player_hit" from="." to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_player_player_hit"]
 [connection signal="body_entered" from="Pick_Up_Detection" to="Neck/Head/Eyes/WeaponHolder" method="_on_pick_up_detection_body_entered"]
 [connection signal="update_ammo" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_ammo"]
 [connection signal="update_weapon_stack" from="Neck/Head/Eyes/WeaponHolder" to="Neck/Head/Eyes/Camera3D/CanvasLayer" method="_on_weapon_holder_update_weapon_stack"]

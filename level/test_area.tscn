@@ -34,19 +34,6 @@ points = PackedVector3Array(-0.5, -0.5, -0.5, 0.0146517, 0.470697, 0.470697, 0.0
 [node name="Test_area" type="Node3D"]
 script = ExtResource("1_kvbmt")
 
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ColorRect" type="ColorRect" parent="UI"]
-visible = false
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 741.0
-color = Color(1, 0.054902, 0.0470588, 0.513726)
-
 [node name="Player" parent="." instance=ExtResource("2_0kklf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 
