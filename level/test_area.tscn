@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://08m53alostbe"]
+[gd_scene load_steps=19 format=3 uid="uid://08m53alostbe"]
 
 [ext_resource type="PackedScene" uid="uid://bifrn6tihunkl" path="res://level/floor.tscn" id="1_bfjyb"]
 [ext_resource type="Script" path="res://level/test_area.gd" id="1_kvbmt"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://qfab5rsea1yh" path="res://spawnable_weapons/blasterB.tscn" id="5_5515m"]
 [ext_resource type="Script" path="res://level/Camera3D.gd" id="5_i83gv"]
 [ext_resource type="PackedScene" uid="uid://dnilawkyi1lw3" path="res://spawnable_weapons/rifleS.tscn" id="6_0ss3a"]
+[ext_resource type="PackedScene" uid="uid://duxn3dhnpm8ks" path="res://Enemy/big_ben.tscn" id="6_feae0"]
 [ext_resource type="PackedScene" uid="uid://fatolg7mqnh1" path="res://spawnable_weapons/blasterB2_mag.tscn" id="8_kq3bt"]
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_3kto7"]
@@ -135,6 +136,8 @@ shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="Zombie" parent="Map/NavigationRegion3D" instance=ExtResource("4_emass")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.23691)
+
+[node name="BigBen" parent="Map/NavigationRegion3D" instance=ExtResource("6_feae0")]
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)

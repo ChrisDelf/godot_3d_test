@@ -276,7 +276,7 @@ func drop(w_name: String):
 			exit(weapon_stack[get_ref])
 		
 func add_ammo(_weapon: String, ammo:int) -> int:
-	var weapon = 	weapon_list[_weapon]
+	var weapon = weapon_list[_weapon]
 	
 	
 	var required = weapon.max_ammo - weapon.reserve_ammo
