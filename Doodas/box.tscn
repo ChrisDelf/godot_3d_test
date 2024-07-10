@@ -28,9 +28,11 @@ physics_material_override = SubResource("PhysicsMaterial_1xe7a")
 script = ExtResource("2_2fyeg")
 
 [node name="Cube" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("BoxMesh_tvpba")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_hqks7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 shape = SubResource("BoxShape3D_fxmk4")

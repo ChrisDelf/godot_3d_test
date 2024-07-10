@@ -66,7 +66,7 @@ func hit_finished():
 		
 
 
-func hit_successful(damage,hit_type):
+func hit_successful(damage,hit_type, vector):
 	if hit_type == "hitscan":
 		health -= damage
 		anim_tree.set("parameters/conditions/is_stagger", true)
