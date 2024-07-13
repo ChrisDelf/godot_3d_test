@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1pinnyxrgvh"]
+
+[ext_resource type="Script" path="res://TestMonster.gd" id="1_6oieh"]
+[ext_resource type="PackedScene" uid="uid://crslna1byrrhp" path="res://Enemy/cone.tscn" id="2_sh7tf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5dps7"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_806g1"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ri6dx"]
+points = PackedVector3Array(-0.000195742, 1, -0.000195742, 0.194988, -1, -0.980814, -0.000195742, -1, -1, -0.195184, -1, -0.980814, -0.382733, -1, -0.924041, -0.555599, -1, -0.831637, -0.707126, -1, -0.707126, -0.831637, -1, -0.555599, -0.924041, -1, -0.382733, -0.980814, -1, -0.195184, -1, -1, -0.000195742, -0.980814, -1, 0.194988, -0.924041, -1, 0.382537, -0.831637, -1, 0.555403, -0.707126, -1, 0.70693, -0.555599, -1, 0.831441, -0.382733, -1, 0.923845, -0.195184, -1, 0.980619, -0.000195742, -1, 1, 0.194988, -1, 0.980619, 0.382537, -1, 0.923845, 0.555403, -1, 0.831441, 0.70693, -1, 0.70693, 0.831441, -1, 0.555403, 0.923845, -1, 0.382537, 0.980619, -1, 0.194988, 1, -1, -0.000195742, 0.980619, -1, -0.195184, 0.923845, -1, -0.382733, 0.831441, -1, -0.555599, 0.70693, -1, -0.707126, 0.555403, -1, -0.831637, 0.382537, -1, -0.924041)
+
+[node name="CharacterBody3D" type="CharacterBody3D" groups=["Targets"]]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 1.06848, 0)
+collision_layer = 36
+collision_mask = 7
+script = ExtResource("1_6oieh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_5dps7")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_806g1")
+
+[node name="VisionArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0127265, 0)
+collision_layer = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="VisionArea"]
+transform = Transform3D(10, 0, 0, 0, -4.37114e-07, -10, 0, 10, -4.37114e-07, 0, 0.560598, -10.177)
+shape = SubResource("ConvexPolygonShape3D_ri6dx")
+
+[node name="Cone" parent="VisionArea" instance=ExtResource("2_sh7tf")]
+transform = Transform3D(10, 0, 0, 0, -4.37114e-07, -10, 0, 10, -4.37114e-07, 0, 0.560598, -10.177)
+visible = false
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56168, 0)
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_height_offset = 0.45

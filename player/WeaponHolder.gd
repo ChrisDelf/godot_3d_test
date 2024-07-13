@@ -108,7 +108,6 @@ func fire():
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 			
 			var camera_collision = get_camera_collision(current_weapon.weapon_range)
-		
 			match current_weapon.Type:
 				NULL:
 					print("A Weapon has not been Choosen")

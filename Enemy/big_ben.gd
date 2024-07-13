@@ -8,6 +8,7 @@ var health = 20
 #creating state machine for animations
 var state_machine
 var is_dead = false
+var rotationSpeed: float = 10.0
 
 @export var player_path: = "/root/Test_area/Player"
 
@@ -20,36 +21,38 @@ var is_dead = false
 
 
 
+
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player = get_node(player_path)
 	state_machine = anim_tree.get("parameters/playback")
-	
 func _process(delta):
-	pass
-	#velocity = Vector3.ZERO
+	velocity = Vector3.ZERO
+	match state_machine.get_current_node():
+			"run":
+				##navigation
+				nav_agent.set_target_position(player.global_transform.origin)
+				var next_nav_point = nav_agent.get_next_path_position()
+				##getting the direction of player
+				velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
+				##smoothing out the turning
+				rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
+				##we want to look at the direction that we are moving
+			"cast_finished":
+				##looking directly at the player
+				look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
 
 		
-		
-	#match state_machine.get_current_node():
-			#"run":
-				##navigation
-				#nav_agent.set_target_position(player.global_transform.origin)
-				#var next_nav_point = nav_agent.get_next_path_position()
-				##getting the direction of player
-				#velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
-				##smoothing out the turning
-				#rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
-				##we want to look at the direction that we are moving
-			#"cast_finished":
-				##looking directly at the player
-				#look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-				#
-		#
-	##Conditions
-	#anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
-	#anim_tree.set("parameters/conditions/is_run", !_target_in_range())
-	#move_and_slide()
+	#Conditions
+	anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
+	anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+	move_and_slide()
+
+	
+	
 
 func _target_in_range():
 	if global_position.distance_to(player.global_position) <= ATTACK_RANGE:
@@ -70,12 +73,15 @@ func _on_vision_timer_timeout():
 	if overlaps.size() > 0:
 		for overlap in overlaps:
 			if overlap.name == "Player":
-	
-				vision_raycast.target_position = overlap.global_transform.origin
+				var player_position = overlap.global_transform.origin
+				print(player_position)
+				var temp_vector3 = Vector3(player_position.x,player_position.y + 1, player_position.z)
+				vision_raycast.look_at(temp_vector3, Vector3.UP)
+				#vision_raycast.look_at(player_position, Vector3.UP)
 				vision_raycast.force_raycast_update()
 				if vision_raycast.is_colliding():
 					var collider = vision_raycast.get_collider()
-					
+
 					if collider.name == "Player":
 						print("I see you")
 					else:

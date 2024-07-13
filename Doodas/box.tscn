@@ -20,19 +20,19 @@ metallic = 0.53
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.490794, 0)
 script = ExtResource("1_43tt1")
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." groups=["Targets"]]
+[node name="RigidBody3DBox" type="RigidBody3D" parent="." groups=["Targets"]]
 collision_layer = 4
 collision_mask = 55
 mass = 60.0
 physics_material_override = SubResource("PhysicsMaterial_1xe7a")
 script = ExtResource("2_2fyeg")
 
-[node name="Cube" type="MeshInstance3D" parent="RigidBody3D"]
+[node name="Cube" type="MeshInstance3D" parent="RigidBody3DBox"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 mesh = SubResource("BoxMesh_tvpba")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_hqks7")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3DBox"]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 shape = SubResource("BoxShape3D_fxmk4")
