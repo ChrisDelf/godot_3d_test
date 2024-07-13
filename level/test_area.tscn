@@ -4,9 +4,9 @@
 [ext_resource type="Script" path="res://level/test_area.gd" id="1_kvbmt"]
 [ext_resource type="PackedScene" uid="uid://bgcib1r1vdaj4" path="res://player/player.tscn" id="2_0kklf"]
 [ext_resource type="MeshLibrary" uid="uid://bnwuyllixn5no" path="res://tileset.tres" id="3_nx3lr"]
-[ext_resource type="PackedScene" uid="uid://bo86a2m76eaha" path="res://Enemy/zombie.tscn" id="4_emass"]
 [ext_resource type="PackedScene" uid="uid://d0w3lgpo6etcv" path="res://Doodas/box.tscn" id="4_vulm3"]
 [ext_resource type="PackedScene" uid="uid://qfab5rsea1yh" path="res://spawnable_weapons/blasterB.tscn" id="5_5515m"]
+[ext_resource type="PackedScene" uid="uid://duxn3dhnpm8ks" path="res://Enemy/big_ben.tscn" id="5_gxfrs"]
 [ext_resource type="Script" path="res://level/Camera3D.gd" id="5_i83gv"]
 [ext_resource type="PackedScene" uid="uid://dnilawkyi1lw3" path="res://spawnable_weapons/rifleS.tscn" id="6_0ss3a"]
 [ext_resource type="PackedScene" uid="uid://fatolg7mqnh1" path="res://spawnable_weapons/blasterB2_mag.tscn" id="8_kq3bt"]
@@ -53,7 +53,7 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00648578, 0.0237427, -0.00906849)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Map/NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 0.24579, 0, 0, 0, 1, -0.000675991, 0.23463, 0)
+transform = Transform3D(1, 0, 0, 0, 0.24579, 0, 0, 0, 1, 0.082, 0, 0)
 mesh = SubResource("CylinderMesh_8co8c")
 skeleton = NodePath("../../..")
 
@@ -133,8 +133,7 @@ collision_layer = 2
 transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, 2.84217e-14, 0, 1, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_525og")
 
-[node name="Zombie" parent="Map/NavigationRegion3D" instance=ExtResource("4_emass")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.23691)
+[node name="BigBenCharacter" parent="Map/NavigationRegion3D" instance=ExtResource("5_gxfrs")]
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)

@@ -108,7 +108,6 @@ func fire():
 			emit_signal("update_ammo", [current_weapon.current_ammo, current_weapon.reserve_ammo])
 			
 			var camera_collision = get_camera_collision(current_weapon.weapon_range)
-		
 			match current_weapon.Type:
 				NULL:
 					print("A Weapon has not been Choosen")
@@ -276,7 +275,7 @@ func drop(w_name: String):
 			exit(weapon_stack[get_ref])
 		
 func add_ammo(_weapon: String, ammo:int) -> int:
-	var weapon = 	weapon_list[_weapon]
+	var weapon = weapon_list[_weapon]
 	
 	
 	var required = weapon.max_ammo - weapon.reserve_ammo

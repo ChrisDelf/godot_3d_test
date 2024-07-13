@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://1xnq34vlxvmt"]
+
+[node name="VisionCast" type="RayCast3D"]
+collision_mask = 5
+debug_shape_custom_color = Color(0.794142, 0.128546, 0.370613, 1)
+debug_shape_thickness = 5

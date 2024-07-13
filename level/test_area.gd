@@ -23,8 +23,8 @@ func _get_random_child(parent_node):
 	return parent_node.get_child(random_id)
 
 
-func _on_zombie_spawn_timer_timeout():
-	var spawn_point = _get_random_child(spawns).global_position
-	instance = zombie.instantiate()
-	instance.position = spawn_point
-	navigation_region.add_child(instance)
+#func _on_zombie_spawn_timer_timeout():
+	#var spawn_point = _get_random_child(spawns).global_position
+	#instance = zombie.instantiate()
+	#instance.position = spawn_point
+	#navigation_region.add_child(instance)

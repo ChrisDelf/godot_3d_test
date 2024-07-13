@@ -30,6 +30,5 @@ func get_collision_force():
 	# we need to get the direction of the force
 	var force_direction = global_transform.origin - hit_box.global_transform.origin
 	force_direction = force_direction.normalized() #Normalize the direction vector
-	var force_magnitude = 10.0 #Adjust the magnitude of the force
 	var force = force_direction * force_direction
 	return force

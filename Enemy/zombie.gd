@@ -16,6 +16,7 @@ var is_dead = false
 @onready var anim_tree = $AnimationTree
 @onready var anim_player = $AnimationPlayer
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player = get_node(player_path)
@@ -24,6 +25,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	## movement
 	velocity = Vector3.ZERO
 	if !is_dead:
 		match state_machine.get_current_node():
@@ -45,6 +47,7 @@ func _process(delta):
 		anim_tree.set("parameters/conditions/is_attack", _target_in_range())
 		anim_tree.set("parameters/conditions/is_run", !_target_in_range())
 		move_and_slide()
+	
 
 	
 func _target_in_range():
@@ -63,9 +66,8 @@ func hit_finished():
 		
 
 
-func hit_successful(damage,hit_type,vector):
+func hit_successful(damage,hit_type, vector):
 	if hit_type == "hitscan":
-		#var force = Vector3(vector)*200
 		health -= damage
 		anim_tree.set("parameters/conditions/is_stagger", true)
 	if hit_type == "melee":
