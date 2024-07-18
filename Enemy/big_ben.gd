@@ -46,10 +46,10 @@ func _process(delta):
 			"cast_finished":
 				##looking directly at the player
 				look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-			"idle":
-				anim_tree.set("parameters/conditions/is_run", false)
 	#Conditions
-	anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
+	if !is_los:
+		anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+	
 	
 	move_and_slide()
 
@@ -91,21 +91,37 @@ func _on_vision_timer_timeout():
 					if collider.name == "Player":
 						print("I see you")
 						is_los = true
-						
+						print(_target_in_range())
+						anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
+						anim_tree.set("parameters/conditions/is_run", false)
+						anim_tree.set("parameters/conditions/idle", false)
 					else:
 						print("where did you go")
 						is_los = false
-						anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+						anim_tree.set("parameters/conditions/is_run", true)
+						anim_tree.set("parameters/conditions/is_in_range", false)
+						anim_tree.set("parameters/conditions/idle", false)
 			else:
-				is_los = false
-				anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+				anim_tree.set("parameters/conditions/is_run", true)
+				anim_tree.set("parameters/conditions/is_in_range", false)
+				anim_tree.set("parameters/conditions/idle", false)
 
 
 
-
-#func _on_animation_tree_animation_finished(anim_name):
-	#if anim_name == "cast_finished":
-		#anim_tree.set("parameters/conditions/is_idle", true)
-	#if anim_name == "idle":
-		#anim_tree.set("parameters/conditions/is_idle", false)
-	#
+func _on_animation_tree_animation_finished(anim_name):
+	if anim_name == "cast_finished":
+		anim_tree.set("parameters/conditions/idle", true)
+		anim_tree.set("parameters/conditions/is_in_range", false)
+		anim_tree.set("parameters/conditions/is_run", false)
+	if anim_name == "idle" && _target_in_range() == false:
+		anim_tree.set("parameters/conditions/idle", false)
+		anim_tree.set("parameters/conditions/is_in_range", false)
+		anim_tree.set("parameters/conditions/is_run", false)
+	if anim_name == "idle" && _target_in_range() == true:
+		anim_tree.set("parameters/conditions/is_in_range", true)
+		anim_tree.set("parameters/conditions/idle", false)
+		anim_tree.set("parameters/conditions/is_run", false)
+	#if anim_name == "run" && _target_in_range() == false:
+		#anim_tree.set("parameters/conditions/is_run", true)
+		#anim_tree.set("parameters/conditions/idle", false)
+		#anim_tree.set("parameters/conditions/is_in_range", false)
