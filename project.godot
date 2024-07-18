@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Test3d"
-run/main_scene="res://level/test_area.tscn"
+run/main_scene="res://StarterScene.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
@@ -109,7 +109,3 @@ Melee={
 3d_physics/layer_4="Weapons"
 3d_physics/layer_5="misc"
 3d_physics/layer_6="enemy"
-
-[rendering]
-
-renderer/rendering_method="mobile"
