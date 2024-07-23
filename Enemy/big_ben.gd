@@ -10,19 +10,15 @@ var state_machine
 var is_dead = false
 var rotationSpeed: float = 10.0
 var is_los = false
-
+#var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
+var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
 @onready var player_path: = $"../../Player"
-
 @onready var nav_agent = $NavigationAgent3D
 @onready var anim_tree = $AnimationTree
 @onready var anim_player = $AnimationPlayer
-@onready var marker = $MarkerFire
+@onready var bullet_point = $Armature/Marker3D
 @onready var vision_raycast = $VisionRaycast
 @onready var vision_area = $VisionArea
-
-
-
-
 
 
 
@@ -71,8 +67,15 @@ func _target_in_range():
 func _fire_ball():
 	if is_los:
 		print("fire_ball")
+		launch_projectile(player.get_global_transform().origin)
 
-	
+
+func launch_projectile(point: Vector3):
+	var direction = (point - bullet_point.get_global_transform().origin).normalized()
+	var projectile = projectile_to_load.instantiate()
+	bullet_point.add_child(projectile)
+	#projectile.look_at(Vector3(direction.x, direction.y + .1, direction.z),Vector3.UP)
+	projectile.set_linear_velocity(Vector3(direction.x, direction.y + .1, direction.z) * 45)
 
 	
 
@@ -89,14 +92,14 @@ func _on_vision_timer_timeout():
 				if vision_raycast.is_colliding():
 					var collider = vision_raycast.get_collider()
 					if collider.name == "Player":
-						print("I see you")
+						#print("I see you")
 						is_los = true
-						print(_target_in_range())
 						anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
 						anim_tree.set("parameters/conditions/is_run", false)
 						anim_tree.set("parameters/conditions/idle", false)
+						return
 					else:
-						print("where did you go")
+						#print("where did you go")
 						is_los = false
 						anim_tree.set("parameters/conditions/is_run", true)
 						anim_tree.set("parameters/conditions/is_in_range", false)
@@ -105,6 +108,8 @@ func _on_vision_timer_timeout():
 				anim_tree.set("parameters/conditions/is_run", true)
 				anim_tree.set("parameters/conditions/is_in_range", false)
 				anim_tree.set("parameters/conditions/idle", false)
+
+
 
 
 
@@ -121,7 +126,4 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set("parameters/conditions/is_in_range", true)
 		anim_tree.set("parameters/conditions/idle", false)
 		anim_tree.set("parameters/conditions/is_run", false)
-	#if anim_name == "run" && _target_in_range() == false:
-		#anim_tree.set("parameters/conditions/is_run", true)
-		#anim_tree.set("parameters/conditions/idle", false)
-		#anim_tree.set("parameters/conditions/is_in_range", false)
+
