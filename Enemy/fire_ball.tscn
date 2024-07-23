@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://bewq6ngfaq5og"]
+
+[ext_resource type="Script" path="res://Enemy/fire_ball.gd" id="1_dxkto"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cuchp"]
+albedo_color = Color(1, 0, 0.0705882, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_es17s"]
+material = SubResource("StandardMaterial3D_cuchp")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4ewjv"]
+radius = 0.556831
+height = 2.28389
+
+[node name="FireBall" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 6
+continuous_cd = true
+max_contacts_reported = 20
+contact_monitor = true
+script = ExtResource("1_dxkto")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_es17s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_4ewjv")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
