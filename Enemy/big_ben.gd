@@ -10,8 +10,9 @@ var state_machine
 var is_dead = false
 var rotationSpeed: float = 10.0
 var is_los = false
-#var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
-var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
+var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
+#var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
+#var player_path = preload("res://player/player.tscn")
 @onready var player_path: = $"../../Player"
 @onready var nav_agent = $NavigationAgent3D
 @onready var anim_tree = $AnimationTree
@@ -66,16 +67,29 @@ func _target_in_range():
 		
 func _fire_ball():
 	if is_los:
-		print("fire_ball")
 		launch_projectile(player.get_global_transform().origin)
 
 
 func launch_projectile(point: Vector3):
+	# calculate the direction from the bullet to the target
 	var direction = (point - bullet_point.get_global_transform().origin).normalized()
+	#want to randomized the lead a little bit to make it less prediticable.
+	var randomized_float = randf_range(2.0, 30.0 - 0.01)
+	var max_lead_angle = randomized_float
+	# geting the velocity of the palyer
+	var player_velocity = player.velocity
+	# calculating the perendicular component of the player
+	var dot_product = direction.dot(player_velocity)
+	var parallel_velocity = direction * dot_product
+	var perpend_velocity = (player_velocity - parallel_velocity).normalized()
+	var lead_component = perpend_velocity * min(1.0, max_lead_angle / 90.0)
+	# add the prependicular velocity to the direction to lead the target
+	var lead_direction = direction + lead_component
+	
 	var projectile = projectile_to_load.instantiate()
 	bullet_point.add_child(projectile)
-	#projectile.look_at(Vector3(direction.x, direction.y + .1, direction.z),Vector3.UP)
-	projectile.set_linear_velocity(Vector3(direction.x, direction.y + .1, direction.z) * 45)
+	projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .1, lead_direction.z) * 40)
+
 
 	
 
