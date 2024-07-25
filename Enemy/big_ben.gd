@@ -11,6 +11,8 @@ var is_dead = false
 var rotationSpeed: float = 10.0
 var is_los = false
 var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
+var min_movement_threshold: float = 4.0
+var player_moved_distance: float = 0.0
 #var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
 #var player_path = preload("res://player/player.tscn")
 @onready var player_path: = $"../../Player"
@@ -70,26 +72,40 @@ func _fire_ball():
 		launch_projectile(player.get_global_transform().origin)
 
 
-func launch_projectile(point: Vector3):
+func launch_projectile(point: Vector3 ):
+
 	# calculate the direction from the bullet to the target
 	var direction = (point - bullet_point.get_global_transform().origin).normalized()
 	#want to randomized the lead a little bit to make it less prediticable.
-	var randomized_float = randf_range(2.0, 30.0 - 0.01)
+	var randomized_float = randf_range(1.0, 30.0 - 0.01)
 	var max_lead_angle = randomized_float
 	# geting the velocity of the palyer
 	var player_velocity = player.velocity
-	# calculating the perendicular component of the player
-	var dot_product = direction.dot(player_velocity)
-	var parallel_velocity = direction * dot_product
-	var perpend_velocity = (player_velocity - parallel_velocity).normalized()
-	var lead_component = perpend_velocity * min(1.0, max_lead_angle / 90.0)
-	# add the prependicular velocity to the direction to lead the target
-	var lead_direction = direction + lead_component
+	var movement_distance = player_velocity.length() * Engine.get_time_scale()
+	player_moved_distance += movement_distance
 	
-	var projectile = projectile_to_load.instantiate()
-	bullet_point.add_child(projectile)
-	projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .1, lead_direction.z) * 40)
-
+	if player_moved_distance >= min_movement_threshold:
+		print("SHooting at running")
+		# calculating the perendicular component of the player
+		var dot_product = direction.dot(player_velocity)
+		var parallel_velocity = direction * dot_product
+		var perpend_velocity = (player_velocity - parallel_velocity).normalized()
+		var lead_component = perpend_velocity * min(1.0, max_lead_angle / 90.0)
+		# add the prependicular velocity to the direction to lead the target
+		var lead_direction = direction + lead_component
+		
+		var projectile = projectile_to_load.instantiate()
+		
+		
+		bullet_point.add_child(projectile)
+		projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .1, lead_direction.z) * 40)
+		
+		player_moved_distance = 0.0
+	else:
+		print("shooting at walking")
+		var projectile = projectile_to_load.instantiate()
+		bullet_point.add_child(projectile)
+		projectile.set_linear_velocity(Vector3(direction.x, direction.y + .1, direction.z) * 40)
 
 	
 
