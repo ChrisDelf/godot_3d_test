@@ -502,4 +502,34 @@ path_u_distance = 1.0
 path_joined = false
 
 [node name="BigBenCharacter" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.8776, 0.505256, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.707317, 0)
+
+[node name="BigBenCharacter2" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.670932, 10.6771)
+
+[node name="BigBenCharacter3" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.47606, 0.670932, 10.6771)
+
+[node name="BigBenCharacter4" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.23454, 0.670932, 10.6771)
+
+[node name="BigBenCharacter5" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.87988, 0.670932, 10.6771)
+
+[node name="BigBenCharacter6" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.93748, 0.670932, 10.6771)
+
+[node name="BigBenCharacter7" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.53568, 0.670932, 10.6771)
+
+[node name="BigBenCharacter8" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.2533, 0.670932, 10.6771)
+
+[node name="BigBenCharacter9" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.8382, 0.670932, 10.6771)
+
+[node name="BigBenCharacter10" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.70987, 0.670932, 10.6771)
+
+[node name="BigBenCharacter11" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.15492, 0.670932, 10.6771)

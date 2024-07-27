@@ -32,6 +32,8 @@ func _ready():
 	state_machine = anim_tree.get("parameters/playback")
 func _process(delta):
 	velocity = Vector3.ZERO
+	if is_dead:
+		return
 	match state_machine.get_current_node():
 			"run":
 				##navigation
@@ -66,9 +68,9 @@ func _target_in_range():
 		
 		
 		
-		
+# is triggered  in animation player.
 func _fire_ball():
-	if is_los:
+	if is_los && !is_dead:
 		launch_projectile(player.get_global_transform().origin)
 
 
@@ -77,15 +79,15 @@ func launch_projectile(point: Vector3 ):
 	# calculate the direction from the bullet to the target
 	var direction = (point - bullet_point.get_global_transform().origin).normalized()
 	#want to randomized the lead a little bit to make it less prediticable.
-	var randomized_float = randf_range(1.0, 30.0 - 0.01)
+	var randomized_float = randf_range(1.0, 20.0 - 0.01)
 	var max_lead_angle = randomized_float
 	# geting the velocity of the palyer
 	var player_velocity = player.velocity
 	var movement_distance = player_velocity.length() * Engine.get_time_scale()
 	player_moved_distance += movement_distance
 	
+	# if the player has moved a certian distance then we lead the shot
 	if player_moved_distance >= min_movement_threshold:
-		print("SHooting at running")
 		# calculating the perendicular component of the player
 		var dot_product = direction.dot(player_velocity)
 		var parallel_velocity = direction * dot_product
@@ -98,14 +100,12 @@ func launch_projectile(point: Vector3 ):
 		
 		
 		bullet_point.add_child(projectile)
-		projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .1, lead_direction.z) * 40)
-		
+		projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .05, lead_direction.z) * 40)
 		player_moved_distance = 0.0
 	else:
-		print("shooting at walking")
 		var projectile = projectile_to_load.instantiate()
 		bullet_point.add_child(projectile)
-		projectile.set_linear_velocity(Vector3(direction.x, direction.y + .1, direction.z) * 40)
+		projectile.set_linear_velocity(Vector3(direction.x, direction.y + .05, direction.z) * 40)
 
 	
 
@@ -139,9 +139,23 @@ func _on_vision_timer_timeout():
 				anim_tree.set("parameters/conditions/is_in_range", false)
 				anim_tree.set("parameters/conditions/idle", false)
 
+func hit_successful(damage,hit_type, vector):
+	if hit_type == "hitscan":
+		health -= damage
+		anim_tree.set("parameters/conditions/is_stagger", true)
+	if hit_type == "melee":
+		health -= damage
+		anim_tree.set("parameters/conditions/is_stagger", true)
+	if hit_type == "projectile":
+		health -= damage
+		anim_tree.set("parameters/conditions/is_stagger", true)
+	if health <= 0:
+		anim_player.play("death")
+		is_dead = true
 
-
-
+func stagger_end():
+	anim_tree.set("parameters/conditions/is_stagger", false)
+	
 
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "cast_finished":
@@ -157,3 +171,10 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set("parameters/conditions/idle", false)
 		anim_tree.set("parameters/conditions/is_run", false)
 
+
+
+func _on_animation_player_animation_finished(anim_name):
+	
+	if anim_name == "death":
+		queue_free()
+		return
