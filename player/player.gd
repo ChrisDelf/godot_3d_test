@@ -252,11 +252,17 @@ func _physics_process(delta):
 
 	
 func hit(dir):
-	hit_ui.visible = true
-	emit_signal("player_hit", 5)
-	await get_tree().create_timer(0.2).timeout
-	hit_ui.visible = false
-	velocity += dir * hit_stagger
+	if dir != null:
+		hit_ui.visible = true
+		emit_signal("player_hit", 5)
+		await get_tree().create_timer(0.2).timeout
+		hit_ui.visible = false
+		velocity += dir * hit_stagger
+	else:
+		hit_ui.visible = true
+		emit_signal("player_hit", 5)
+		await get_tree().create_timer(0.2).timeout
+		hit_ui.visible = false
 
 func _on_slide_cooldown_timeout():
 	can_slide = true

@@ -876,7 +876,7 @@ _data = {
 "stick_deactivate": SubResource("Animation_7trpp")
 }
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["Players"]]
 collision_mask = 3
 script = ExtResource("1_1i2q3")
 

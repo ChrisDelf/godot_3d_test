@@ -134,6 +134,7 @@ transform = Transform3D(1, 0, -8.88178e-16, 0, 1, 0, 2.84217e-14, 0, 1, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_525og")
 
 [node name="BigBenCharacter" parent="Map/NavigationRegion3D" instance=ExtResource("5_gxfrs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="box" parent="." instance=ExtResource("4_vulm3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.69371, 5.88281, -7.94395)

@@ -6,7 +6,7 @@ var damage: int = 0
 
 func _on_body_entered(body):
 	if body.is_in_group("Players") && body.has_method("hit"):
-		body.hit(damage, "projectile", null)
+		body.hit(null)
 		queue_free()
 	queue_free()
 
