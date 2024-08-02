@@ -191,35 +191,11 @@ light_energy = 0.75
 shadow_enabled = true
 
 [node name="Player" parent="." instance=ExtResource("1_rkbyp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.758075, -20.9279)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.591269, -20.9279)
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -1.478, -28)
 navigation_mesh = SubResource("NavigationMesh_24b77")
-
-[node name="Patrol" type="Node3D" parent="NavigationRegion3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 1.478, 28)
-
-[node name="WayPoint" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.672, -0.5, -4.891)
-
-[node name="WayPoint2" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.6719, 0, 2.04834)
-
-[node name="WayPoint3" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.6719, 0, 7.41541)
-
-[node name="WayPoint4" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.8056, 0, 7.41541)
-
-[node name="WayPoint5" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.1428, 0, -1.22863)
-
-[node name="WayPoint6" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.1428, 0, -14.1921)
-
-[node name="WayPoint7" type="Node3D" parent="NavigationRegion3D/Patrol" groups=["Patrols"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.5428, 0, -26.1111)
 
 [node name="Floor" type="CSGBox3D" parent="NavigationRegion3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.5, 0)
@@ -450,6 +426,10 @@ mass = 10.0
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Level/Props/RigidBody3D6"]
 mesh = SubResource("BoxMesh_uao6m")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="NavigationRegion3D/Level/Props/RigidBody3D6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9.81634, 15.6258)
+mesh = SubResource("BoxMesh_uao6m")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Level/Props/RigidBody3D6"]
 shape = SubResource("BoxShape3D_hyueo")
 
@@ -526,4 +506,17 @@ path_u_distance = 1.0
 path_joined = false
 
 [node name="BigBenCharacter" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.707317, 10.1219)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29626, 0)
+
+[node name="PatrolRoute" type="Node3D" parent="NavigationRegion3D"]
+
+[node name="waypoint" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
+
+[node name="waypoint2" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2102, 0, 0)
+
+[node name="waypoint3" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2102, 0, -9.8793)
+
+[node name="waypoint4" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.151405, 0, -9.8793)

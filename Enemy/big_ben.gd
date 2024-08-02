@@ -14,10 +14,11 @@ var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
 var min_movement_threshold: float = 4.0
 var player_moved_distance: float = 0.0
 var behavior_tree = {}
-var positions : Array
-var temp_positions: Array
-var patrol_position: Node3D
-var patrol_direction: Vector3
+
+var patrol_pos: Array
+var temp_waypoints: Array
+var current_waypoint: Marker3D
+var waypoint_direction: Vector3 = Vector3.ZERO
 #var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
 #var player_path = preload("res://player/player.tscn")
 @onready var player_path: = $"../../Player"
@@ -27,6 +28,7 @@ var patrol_direction: Vector3
 @onready var bullet_point = $Armature/Marker3D
 @onready var vision_raycast = $VisionRaycast
 @onready var vision_area = $VisionArea
+@onready var random_pos: Vector3 = Vector3(randf_range(-75, 50), position.y, randf_range(-85,20))
 @export var group_name : String
 
 
@@ -40,11 +42,21 @@ func _ready():
 	behavior_tree["player_detected"] = false
 	behavior_tree["patrol"] = false
 	behavior_tree["idle"] = false
-	# this will look for any nodes in the group of patrols
-	positions = get_tree().get_nodes_in_group("Patrols")
-	_get_positions()
-	_get_next_position()
 	
+	patrol_pos = get_tree().get_nodes_in_group(group_name)
+	get_waypoints()
+	get_next_waypoint()
+	
+	# Disable physics process initially
+	set_physics_process(false)
+	# Wait for the first physics frame
+	call_deferred("_initialize_navigation")
+
+func _initialize_navigation():
+	await get_tree().physics_frame
+	# Enable physics process after the first frame
+	set_physics_process(true)
+
 func _physics_process(delta):
 	velocity = Vector3.ZERO
 	if is_dead:
@@ -67,17 +79,17 @@ func _physics_process(delta):
 		if !is_los:
 			anim_tree.set("parameters/conditions/is_run", !_target_in_range())
 		
-		
-		move_and_slide()
 	else:
-		print(global_position.distance_to(patrol_position.position))
-		if global_position.distance_to(patrol_position.position) < 10:
-			_get_next_position()
-		velocity = patrol_direction * SPEED
+		nav_agent.set_target_position(current_waypoint.global_transform.origin)
+		var next_nav_point = nav_agent.get_next_path_position()
+		velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
 		rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
-		if !is_los:
-			anim_tree.set("parameters/conditions/is_run", !_target_in_range())
-			move_and_slide()
+	
+		if global_position.distance_to(current_waypoint.global_transform.origin) <= 5:
+			print(global_position.distance_to(current_waypoint.global_transform.origin))
+			get_next_waypoint()
+	move_and_slide()
+
 	
 	
 
@@ -177,24 +189,21 @@ func hit_successful(damage,hit_type, vector):
 
 func stagger_end():
 	anim_tree.set("parameters/conditions/is_stagger", false)
+#<----------------------------patrol logic ------------------------------------------>
+func get_waypoints() -> void:
+	#copy our array then we shuffle them in a random orderd
+	temp_waypoints = patrol_pos.duplicate()
+	temp_waypoints.shuffle()
+
+func get_next_waypoint() -> void:
+	#we will pop off the stack and set current waypoint to that waypoint
+	if temp_waypoints.is_empty():
+		get_waypoints()
 	
-#<-----------------------------------patrol logic ------------------------------------->	
-func _get_positions():
-	# we create a copy of the array
-	temp_positions = positions.duplicate()
-	temp_positions.shuffle()
-	
-func _get_next_position():
-	if temp_positions.is_empty():
-		_get_next_position()
-	patrol_position = temp_positions.pop_front()
-	patrol_direction = to_local(patrol_position.position).normalized()
-	nav_agent.set_target_position(to_local(patrol_position.position).normalized())
-	print(patrol_direction)
-	
-	
-	
-	
+	current_waypoint = temp_waypoints.pop_front()
+	print(current_waypoint)
+	waypoint_direction = current_waypoint.global_transform.origin.normalized()
+
 #<----------------------------Signals------------------------------------------------>
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "cast_finished":
