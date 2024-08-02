@@ -1,18 +1,24 @@
 extends CharacterBody3D
 
-const SPEED = 3.0
-const ATTACK_RANGE = 30
+const SPEED:float = 3.0
+const ATTACK_RANGE:float = 30.0
 const MAX_DISTANCE: float = 100.0
 var player = null
 var health = 20
 #creating state machine for animations
 var state_machine
-var is_dead = false
+var is_dead:bool = false
 var rotationSpeed: float = 10.0
-var is_los = false
+var is_los:bool = false
 var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
 var min_movement_threshold: float = 4.0
 var player_moved_distance: float = 0.0
+var behavior_tree = {}
+
+var patrol_pos: Array
+var temp_waypoints: Array
+var current_waypoint: Marker3D
+var waypoint_direction: Vector3 = Vector3.ZERO
 #var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
 #var player_path = preload("res://player/player.tscn")
 @onready var player_path: = $"../../Player"
@@ -22,6 +28,9 @@ var player_moved_distance: float = 0.0
 @onready var bullet_point = $Armature/Marker3D
 @onready var vision_raycast = $VisionRaycast
 @onready var vision_area = $VisionArea
+@onready var random_pos: Vector3 = Vector3(randf_range(-75, 50), position.y, randf_range(-85,20))
+@export var group_name : String
+
 
 
 
@@ -30,28 +39,55 @@ var player_moved_distance: float = 0.0
 func _ready():
 	player = player_path
 	state_machine = anim_tree.get("parameters/playback")
-func _process(delta):
+	behavior_tree["player_detected"] = false
+	behavior_tree["patrol"] = false
+	behavior_tree["idle"] = false
+	
+	patrol_pos = get_tree().get_nodes_in_group(group_name)
+	get_waypoints()
+	get_next_waypoint()
+	
+	# Disable physics process initially
+	set_physics_process(false)
+	# Wait for the first physics frame
+	call_deferred("_initialize_navigation")
+
+func _initialize_navigation():
+	await get_tree().physics_frame
+	# Enable physics process after the first frame
+	set_physics_process(true)
+
+func _physics_process(delta):
 	velocity = Vector3.ZERO
 	if is_dead:
 		return
-	match state_machine.get_current_node():
-			"run":
-				##navigation
-				nav_agent.set_target_position(player.global_transform.origin)
-				var next_nav_point = nav_agent.get_next_path_position()
-				##getting the direction of player
-				velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
-				##smoothing out the turning
-				rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
-				##we want to look at the direction that we are moving
-			"cast_finished":
-				##looking directly at the player
-				look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-	#Conditions
-	if !is_los:
-		anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+	if behavior_tree["player_detected"] == true:
+		match state_machine.get_current_node():
+				"run":
+					##navigation
+					nav_agent.set_target_position(player.global_transform.origin)
+					var next_nav_point = nav_agent.get_next_path_position()
+					##getting the direction of player
+					velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
+					##smoothing out the turning
+					rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
+					##we want to look at the direction that we are moving
+				"cast_finished":
+					##looking directly at the player
+					look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
+		#Conditions
+		if !is_los:
+			anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+		
+	else:
+		nav_agent.set_target_position(current_waypoint.global_transform.origin)
+		var next_nav_point = nav_agent.get_next_path_position()
+		velocity = (next_nav_point - global_transform.origin).normalized() * SPEED
+		rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
 	
-	
+		if global_position.distance_to(current_waypoint.global_transform.origin) <= 5:
+			print(global_position.distance_to(current_waypoint.global_transform.origin))
+			get_next_waypoint()
 	move_and_slide()
 
 	
@@ -64,10 +100,7 @@ func _target_in_range():
 		return false
 	else:
 		return false
-		
-		
-		
-		
+
 # is triggered  in animation player.
 func _fire_ball():
 	if is_los && !is_dead:
@@ -124,6 +157,7 @@ func _on_vision_timer_timeout():
 					if collider.name == "Player":
 						#print("I see you")
 						is_los = true
+						behavior_tree["player_detected"] = true
 						anim_tree.set("parameters/conditions/is_in_range", _target_in_range())
 						anim_tree.set("parameters/conditions/is_run", false)
 						anim_tree.set("parameters/conditions/idle", false)
@@ -155,8 +189,22 @@ func hit_successful(damage,hit_type, vector):
 
 func stagger_end():
 	anim_tree.set("parameters/conditions/is_stagger", false)
-	
+#<----------------------------patrol logic ------------------------------------------>
+func get_waypoints() -> void:
+	#copy our array then we shuffle them in a random orderd
+	temp_waypoints = patrol_pos.duplicate()
+	temp_waypoints.shuffle()
 
+func get_next_waypoint() -> void:
+	#we will pop off the stack and set current waypoint to that waypoint
+	if temp_waypoints.is_empty():
+		get_waypoints()
+	
+	current_waypoint = temp_waypoints.pop_front()
+	print(current_waypoint)
+	waypoint_direction = current_waypoint.global_transform.origin.normalized()
+
+#<----------------------------Signals------------------------------------------------>
 func _on_animation_tree_animation_finished(anim_name):
 	if anim_name == "cast_finished":
 		anim_tree.set("parameters/conditions/idle", true)
@@ -170,8 +218,6 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set("parameters/conditions/is_in_range", true)
 		anim_tree.set("parameters/conditions/idle", false)
 		anim_tree.set("parameters/conditions/is_run", false)
-
-
 
 func _on_animation_player_animation_finished(anim_name):
 	
