@@ -48,6 +48,7 @@ var current_weapon: Node = null
 
 #signals
 signal player_hit
+signal sleath_check
 
 
 @onready var standing_collision_shape = $StandingCollisionShape
