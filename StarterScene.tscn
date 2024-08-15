@@ -506,7 +506,7 @@ path_u_distance = 1.0
 path_joined = false
 
 [node name="BigBenCharacter" parent="NavigationRegion3D" instance=ExtResource("8_4nr0u")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29626, 0)
+transform = Transform3D(0.0363298, 0, 0.99934, 0, 1, 0, -0.99934, 0, 0.0363298, 27.347, 1.29626, 0)
 
 [node name="PatrolRoute" type="Node3D" parent="NavigationRegion3D"]
 
@@ -520,3 +520,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.2102, 0, -9.8793)
 
 [node name="waypoint4" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.151405, 0, -9.8793)
+
+[node name="waypoint5" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02209, 5.53911, 19.9627)

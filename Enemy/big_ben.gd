@@ -7,18 +7,22 @@ var player = null
 var health = 20
 #creating state machine for animations
 var state_machine
-var is_dead:bool = false
+
 var rotationSpeed: float = 10.0
-var is_los:bool = false
 var projectile_to_load = preload("res://Enemy/enemy_bullet.tscn")
 var min_movement_threshold: float = 4.0
 var player_moved_distance: float = 0.0
 var behavior_tree = {}
-
 var patrol_pos: Array
 var temp_waypoints: Array
 var current_waypoint: Marker3D
 var waypoint_direction: Vector3 = Vector3.ZERO
+
+var is_dead:bool = false
+var is_los:bool = false
+var is_hearing: bool = false
+
+var player_sneak: Array = ["walking", "crouching", "idle"]
 #var projectile_to_load = preload("res://weapon_resources/bullet.tscn")
 #var player_path = preload("res://player/player.tscn")
 @onready var player_path: = $"../../Player"
@@ -30,6 +34,9 @@ var waypoint_direction: Vector3 = Vector3.ZERO
 @onready var vision_area = $VisionArea
 @onready var random_pos: Vector3 = Vector3(randf_range(-75, 50), position.y, randf_range(-85,20))
 @export var group_name : String
+@export var chase_range: float
+# singals
+signal stealth_check
 
 
 
@@ -59,10 +66,27 @@ func _initialize_navigation():
 
 func _physics_process(delta):
 	velocity = Vector3.ZERO
+	var player_state = Globals.player_state
+	##Check if we can detect player if we have our hearing activated
+	if is_hearing:
+		var is_heard = false
+		for sneak in player_sneak:
+			if sneak == player_state:
+				is_heard = false
+				break
+			else:
+				is_heard = true
+		if is_heard == true:
+			behavior_tree["player_detected"] = true
+				
+				
+		
+
 	if is_dead:
 		return
 	if behavior_tree["player_detected"] == true:
 		match state_machine.get_current_node():
+			#Conditions
 				"run":
 					##navigation
 					nav_agent.set_target_position(player.global_transform.origin)
@@ -75,9 +99,15 @@ func _physics_process(delta):
 				"cast_finished":
 					##looking directly at the player
 					look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-		#Conditions
 		if !is_los:
-			anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+			
+			if global_position.distance_to(player.global_position) < chase_range:
+				print("running")
+				anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+			else:
+				print("patrol")
+				behavior_tree["player_detected"] = false
+			
 		
 	else:
 		nav_agent.set_target_position(current_waypoint.global_transform.origin)
@@ -86,7 +116,6 @@ func _physics_process(delta):
 		rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
 	
 		if global_position.distance_to(current_waypoint.global_transform.origin) <= 5:
-			print(global_position.distance_to(current_waypoint.global_transform.origin))
 			get_next_waypoint()
 	move_and_slide()
 
@@ -165,6 +194,7 @@ func _on_vision_timer_timeout():
 					else:
 						#print("where did you go")
 						is_los = false
+						print("where did you go?")
 						anim_tree.set("parameters/conditions/is_run", true)
 						anim_tree.set("parameters/conditions/is_in_range", false)
 						anim_tree.set("parameters/conditions/idle", false)
@@ -201,8 +231,17 @@ func get_next_waypoint() -> void:
 		get_waypoints()
 	
 	current_waypoint = temp_waypoints.pop_front()
-	print(current_waypoint)
 	waypoint_direction = current_waypoint.global_transform.origin.normalized()
+	
+#<----------------------------Sound Logic ------------------------------------------->
+func _on_hearing_area_body_entered(body):
+	if body.is_in_group("Players"):
+		is_hearing = true
+		
+
+func _on_hearing_area_body_exited(body):
+	if body.is_in_group("Players"):
+		is_hearing = false
 
 #<----------------------------Signals------------------------------------------------>
 func _on_animation_tree_animation_finished(anim_name):
@@ -218,9 +257,17 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set("parameters/conditions/is_in_range", true)
 		anim_tree.set("parameters/conditions/idle", false)
 		anim_tree.set("parameters/conditions/is_run", false)
+	if anim_name == "stagger":
+		behavior_tree["player_detected"] = true
 
 func _on_animation_player_animation_finished(anim_name):
 	
 	if anim_name == "death":
 		queue_free()
 		return
+
+
+
+
+
+
