@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-const SPEED:float = 1.0
+const SPEED:float = 3.0
 const ATTACK_RANGE:float = 30.0
 const MAX_DISTANCE: float = 100.0
 var player = null
@@ -34,6 +34,7 @@ var player_sneak: Array = ["walking", "crouching", "idle"]
 @onready var vision_area = $VisionArea
 @onready var random_pos: Vector3 = Vector3(randf_range(-75, 50), position.y, randf_range(-85,20))
 @export var group_name : String
+@export var chase_range: float
 # singals
 signal stealth_check
 
@@ -85,6 +86,7 @@ func _physics_process(delta):
 		return
 	if behavior_tree["player_detected"] == true:
 		match state_machine.get_current_node():
+			#Conditions
 				"run":
 					##navigation
 					nav_agent.set_target_position(player.global_transform.origin)
@@ -97,9 +99,15 @@ func _physics_process(delta):
 				"cast_finished":
 					##looking directly at the player
 					look_at(Vector3(player.global_position.x, global_position.y, player.global_position.z), Vector3.UP)
-		#Conditions
 		if !is_los:
-			anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+			
+			if global_position.distance_to(player.global_position) < chase_range:
+				print("running")
+				anim_tree.set("parameters/conditions/is_run", !_target_in_range())
+			else:
+				print("patrol")
+				behavior_tree["player_detected"] = false
+			
 		
 	else:
 		nav_agent.set_target_position(current_waypoint.global_transform.origin)
@@ -108,7 +116,6 @@ func _physics_process(delta):
 		rotation.y = lerp_angle(rotation.y, atan2(-velocity.x, -velocity.z), delta * 10.0)
 	
 		if global_position.distance_to(current_waypoint.global_transform.origin) <= 5:
-			print(global_position.distance_to(current_waypoint.global_transform.origin))
 			get_next_waypoint()
 	move_and_slide()
 
@@ -187,6 +194,7 @@ func _on_vision_timer_timeout():
 					else:
 						#print("where did you go")
 						is_los = false
+						print("where did you go?")
 						anim_tree.set("parameters/conditions/is_run", true)
 						anim_tree.set("parameters/conditions/is_in_range", false)
 						anim_tree.set("parameters/conditions/idle", false)
@@ -249,6 +257,8 @@ func _on_animation_tree_animation_finished(anim_name):
 		anim_tree.set("parameters/conditions/is_in_range", true)
 		anim_tree.set("parameters/conditions/idle", false)
 		anim_tree.set("parameters/conditions/is_run", false)
+	if anim_name == "stagger":
+		behavior_tree["player_detected"] = true
 
 func _on_animation_player_animation_finished(anim_name):
 	
