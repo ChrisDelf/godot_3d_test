@@ -190,9 +190,6 @@ transform = Transform3D(-0.866024, -0.433016, 0.250001, -0.353555, 0.883882, 0.3
 light_energy = 0.75
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("1_rkbyp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.591269, -20.9279)
-
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, -1.478, -28)
 navigation_mesh = SubResource("NavigationMesh_24b77")
@@ -523,3 +520,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.151405, 0, -9.8793)
 
 [node name="waypoint5" type="Marker3D" parent="NavigationRegion3D/PatrolRoute" groups=["Patrols"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.02209, 5.53911, 19.9627)
+
+[node name="Player" parent="." instance=ExtResource("1_rkbyp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.413192, -12.7454)
