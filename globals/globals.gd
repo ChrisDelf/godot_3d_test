@@ -15,8 +15,3 @@ var player_state: = "idle":
 
 		
 	
-
-
-
-
-

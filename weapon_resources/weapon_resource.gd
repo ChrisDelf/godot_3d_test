@@ -33,5 +33,3 @@ class_name weapon_resource
 @export var weapon_drop: PackedScene
 
 enum {NULL,HITSCAN, PROJECTILE}
-
-

@@ -195,12 +195,18 @@ func hit_scan_damage(collider, vector):
 		collider.hit_successful(current_weapon.damage, "hitscan",vector)
 
 func launch_projectile(point: Vector3):
-	
-	var direction = (point - bullet_point.get_global_transform().origin).normalized()
+	var direction = (point - bullet_point.global_transform.origin).normalized()
 	var projectile = current_weapon.projectile_to_load.instantiate()
-	bullet_point.add_child(projectile)
 	projectile.damage = current_weapon.damage
-	projectile.set_linear_velocity(direction*current_weapon.projectile_velocity)
+	bullet_point.add_child(projectile)
+	# Calculate rotation
+	#print(direction.x)
+	#projectile.look_at(direction.x, projectile.direction.y, projectile.direction.z, Vector3.UP)
+	#var temp_rotation_degrees = Vector3(-90, 0, 0)
+	#projectile.rotation =  temp_rotation_degrees
+
+	projectile.set_position(bullet_point.global_transform.origin)
+	projectile.set_linear_velocity(direction*100)
 	
 	
 func _send_signal_to_weapon_stack_label(_label_node, stack):
@@ -287,6 +293,3 @@ func add_ammo(_weapon: String, ammo:int) -> int:
 
 
 	
-
-
-

@@ -27,4 +27,3 @@ func _process(delta):
 	move_and_slide()
 	vision_cast.target_position = player.global_transform.origin
 	
-

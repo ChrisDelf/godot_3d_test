@@ -271,6 +271,3 @@ func _on_slide_cooldown_timeout():
 
 func _on_weapon_holder_weapon_swap(param1):
 	current_weapon = param1
-
-
-

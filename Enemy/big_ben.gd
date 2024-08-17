@@ -35,8 +35,7 @@ var player_sneak: Array = ["walking", "crouching", "idle"]
 @onready var random_pos: Vector3 = Vector3(randf_range(-75, 50), position.y, randf_range(-85,20))
 @export var group_name : String
 @export var chase_range: float
-# singals
-signal stealth_check
+
 
 
 
@@ -102,10 +101,8 @@ func _physics_process(delta):
 		if !is_los:
 			
 			if global_position.distance_to(player.global_position) < chase_range:
-				print("running")
 				anim_tree.set("parameters/conditions/is_run", !_target_in_range())
 			else:
-				print("patrol")
 				behavior_tree["player_detected"] = false
 			
 		
@@ -183,7 +180,7 @@ func _on_vision_timer_timeout():
 				vision_raycast.force_raycast_update()
 				if vision_raycast.is_colliding():
 					var collider = vision_raycast.get_collider()
-					if collider.name == "Player":
+					if collider.name == "Player" && global_position.distance_to(player.global_position) < chase_range:
 						#print("I see you")
 						is_los = true
 						behavior_tree["player_detected"] = true
@@ -194,7 +191,6 @@ func _on_vision_timer_timeout():
 					else:
 						#print("where did you go")
 						is_los = false
-						print("where did you go?")
 						anim_tree.set("parameters/conditions/is_run", true)
 						anim_tree.set("parameters/conditions/is_in_range", false)
 						anim_tree.set("parameters/conditions/idle", false)
@@ -202,6 +198,7 @@ func _on_vision_timer_timeout():
 				anim_tree.set("parameters/conditions/is_run", true)
 				anim_tree.set("parameters/conditions/is_in_range", false)
 				anim_tree.set("parameters/conditions/idle", false)
+				is_los = false
 
 func hit_successful(damage,hit_type, vector):
 	if hit_type == "hitscan":
@@ -265,9 +262,3 @@ func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "death":
 		queue_free()
 		return
-
-
-
-
-
-
