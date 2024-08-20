@@ -15,10 +15,9 @@ radius = 2.45098
 height = 14.0931
 
 [node name="Bullet" type="RigidBody3D"]
-transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, 0)
 top_level = true
 collision_layer = 4
-collision_mask = 0
+collision_mask = 36
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 30
