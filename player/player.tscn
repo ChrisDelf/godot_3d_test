@@ -914,13 +914,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.605, 0)
 
 [node name="Eyes" type="Node3D" parent="Neck/Head"]
 
+[node name="GrenadeHolder" type="Node3D" parent="Neck/Head/Eyes"]
+
 [node name="WeaponHolder" type="Node3D" parent="Neck/Head/Eyes"]
 script = ExtResource("2_7txp3")
 _weapon_resources = Array[ExtResource("3_0efh7")]([ExtResource("3_jm2p8"), ExtResource("4_mwxfo"), ExtResource("5_orqo5")])
 _start_weapons = Array[String](["rifleS", "blasterB2", "stick"])
 
 [node name="blasterB2" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("4_xorag")]
-transform = Transform3D(-0.991074, 0.00534655, 0.133178, 0.0135232, 0.99807, 0.0605673, -0.132598, 0.0618279, -0.989236, 0.287299, -0.319994, -0.685605)
+transform = Transform3D(-0.991074, 0.00534656, 0.133179, 0.0135232, 0.99807, 0.0605672, -0.132598, 0.0618279, -0.989236, 0.287299, -0.319994, -0.685605)
 
 [node name="rifleS" parent="Neck/Head/Eyes/WeaponHolder" instance=ExtResource("2_5e6iy")]
 transform = Transform3D(-3.61999e-06, 0, -0.999999, 0, 0.999998, 0, 0.999999, 0, -3.61999e-06, 0.392272, -0.36928, -1.24942)

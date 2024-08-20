@@ -156,14 +156,26 @@ func launch_projectile(point: Vector3 ):
 		var lead_direction = direction + lead_component
 		
 		var projectile = projectile_to_load.instantiate()
-		
-		
+
 		bullet_point.add_child(projectile)
+		projectile.rotation_degrees = rotation_degrees
+		projectile.rotation_degrees.z += 90
+		projectile.rotation_degrees.y += 90
+		projectile.set_position(bullet_point.global_transform.origin)
+
+		
+		
 		projectile.set_linear_velocity(Vector3(lead_direction.x, direction.y + .05, lead_direction.z) * 40)
 		player_moved_distance = 0.0
 	else:
 		var projectile = projectile_to_load.instantiate()
 		bullet_point.add_child(projectile)
+		
+		projectile.rotation_degrees = rotation_degrees
+		projectile.rotation_degrees.z += 90
+		projectile.rotation_degrees.y += 90
+		projectile.set_position(bullet_point.global_transform.origin)
+		
 		projectile.set_linear_velocity(Vector3(direction.x, direction.y + .05, direction.z) * 40)
 
 	

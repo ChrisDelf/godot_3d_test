@@ -1,4 +1,5 @@
 extends Node3D
+@onready var player = $"../../../.."
 @onready var bullet_point = $BulletMarker
 @onready var animation_player: AnimationPlayer = $"../AnimationPlayer"
 @onready var weapon_stack_label: Label = $"../Camera3D/CanvasLayer/VBoxContainer/WeaponStackContainer/WeaponStack"
@@ -199,13 +200,14 @@ func launch_projectile(point: Vector3):
 	var projectile = current_weapon.projectile_to_load.instantiate()
 	projectile.damage = current_weapon.damage
 	bullet_point.add_child(projectile)
-	# Calculate rotation
-	#print(direction.x)
-	#projectile.look_at(direction.x, projectile.direction.y, projectile.direction.z, Vector3.UP)
-	#var temp_rotation_degrees = Vector3(-90, 0, 0)
-	#projectile.rotation =  temp_rotation_degrees
+	projectile.rotation_degrees = player.rotation_degrees
+	projectile.rotation_degrees.z += 90
+	projectile.rotation_degrees.y += 90
+
 
 	projectile.set_position(bullet_point.global_transform.origin)
+
+
 	projectile.set_linear_velocity(direction*100)
 	
 	
